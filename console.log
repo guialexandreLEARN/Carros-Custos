@@ -1,0 +1,4 @@
+.catch((error) => {
+    console.error('Erro ao adicionar carro:', error);
+    alert('Erro ao adicionar carro: ' + error.message);
+});
