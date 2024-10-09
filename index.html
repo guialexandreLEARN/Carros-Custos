@@ -47,45 +47,7 @@
 </style>
 
 <body>
-    <h1>Gerenciar Carros e Custos</h1>
-
-    <h2>Login</h2>
-    <form id="loginForm">
-        <label>Email: <input type="email" id="email" required></label><br>
-        <label>Senha: <input type="password" id="password" required></label><br>
-        <button type="submit">Entrar</button>
-    </form>
-
-    <!-- Formulários para adicionar carro e custo -->
-    <div id="forms" style="display: none;">
-        <form id="carForm">
-            <h3>Adicionar Carro</h3>
-            <label>Ano de Fabricação: <input type="text" id="anoFab"></label><br>
-            <label>Ano do Modelo: <input type="text" id="anoModelo"></label><br>
-            <label>Cor: <input type="text" id="cor"></label><br>
-            <label>Código FIPE: <input type="text" id="codigoFIPE"></label><br>
-            <label>Litragem do Motor: <input type="text" id="litragemMotor"></label><br>
-            <label>Marca: <input type="text" id="marca"></label><br>
-            <label>Modelo: <input type="text" id="modelo"></label><br>
-            <label>Placa Antiga: <input type="text" id="placaAntiga"></label><br>
-            <label>Placa Mercosul: <input type="text" id="placaMercosul"></label><br>
-            <label>RENAVAM (Chave Primária): <input type="text" id="renavam"></label><br>
-            <label>Versão: <input type="text" id="versao"></label><br>
-            <button type="submit">Adicionar Carro</button>
-        </form>
-
-        <form id="costForm">
-            <h3>Adicionar Custo</h3>
-            <label>Data: <input type="date" id="data"></label><br>
-            <label>Descrição dos Custos: <input type="text" id="descricaoCustos"></label><br>
-            <label>Método de Pagamento: <input type="text" id="metodoPagamento"></label><br>
-            <label>RENAVAM (Relaciona com o carro): <input type="text" id="renavamCusto"></label><br>
-            <label>Valor dos Custos: <input type="number" id="valorCustos"></label><br>
-            <button type="submit">Adicionar Custo</button>
-        </form>
-    </div>
-
-    <script type="module">
+	<script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
         import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js';
         import { getFirestore, collection, addDoc } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
@@ -132,5 +94,45 @@
             }
         });
     </script>
+	
+    <h1>Gerenciar Carros e Custos</h1>
+
+    <h2>Login</h2>
+    <form id="loginForm">
+        <label>Email: <input type="email" id="email" required></label><br>
+        <label>Senha: <input type="password" id="password" required></label><br>
+        <button type="submit">Entrar</button>
+    </form>
+
+    <!-- Formulários para adicionar carro e custo -->
+    <div id="forms" style="display: none;">
+        <form id="carForm">
+            <h3>Adicionar Carro</h3>
+            <label>Ano de Fabricação: <input type="text" id="anoFab"></label><br>
+            <label>Ano do Modelo: <input type="text" id="anoModelo"></label><br>
+            <label>Cor: <input type="text" id="cor"></label><br>
+            <label>Código FIPE: <input type="text" id="codigoFIPE"></label><br>
+            <label>Litragem do Motor: <input type="text" id="litragemMotor"></label><br>
+            <label>Marca: <input type="text" id="marca"></label><br>
+            <label>Modelo: <input type="text" id="modelo"></label><br>
+            <label>Placa Antiga: <input type="text" id="placaAntiga"></label><br>
+            <label>Placa Mercosul: <input type="text" id="placaMercosul"></label><br>
+            <label>RENAVAM (Chave Primária): <input type="text" id="renavam"></label><br>
+            <label>Versão: <input type="text" id="versao"></label><br>
+            <button type="submit">Adicionar Carro</button>
+        </form>
+
+        <form id="costForm">
+            <h3>Adicionar Custo</h3>
+            <label>Data: <input type="date" id="data"></label><br>
+            <label>Descrição dos Custos: <input type="text" id="descricaoCustos"></label><br>
+            <label>Método de Pagamento: <input type="text" id="metodoPagamento"></label><br>
+            <label>RENAVAM (Relaciona com o carro): <input type="text" id="renavamCusto"></label><br>
+            <label>Valor dos Custos: <input type="number" id="valorCustos"></label><br>
+            <button type="submit">Adicionar Custo</button>
+        </form>
+    </div>
+
+
 </body>
 </html>
