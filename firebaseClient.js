@@ -1,6 +1,6 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, browserLocalPersistence } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js';
-import { getFirestore, collection, addDoc } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
+import { getFirestore, collection, addDoc, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
 
 // Configuração do Firebase (frontend)
 const firebaseConfig = {
@@ -67,6 +67,23 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
+// Função para preencher datalists com dados do Firestore
+async function preencherDatalist(idDatalist, collectionName, fieldName) {
+    const querySnapshot = await getDocs(collection(db, collectionName));
+    const datalist = document.getElementById(idDatalist);
+    querySnapshot.forEach((doc) => {
+        const option = document.createElement('option');
+        option.value = doc.data()[fieldName]; // Captura o valor do campo específico
+        datalist.appendChild(option);
+    });
+}
+
+// Preencher as listas de sugestões no formulário
+preencherDatalist('renavams', 'Caracteristicas', 'RENAVAM');  // Preencher RENAVAM
+preencherDatalist('descriptions', 'Custos', 'Descricao_Custos'); // Preencher Descrição dos Custos
+preencherDatalist('quemPagouList', 'Custos', 'Quem_Pagou'); // Preencher Quem pagou
+preencherDatalist('paymentMethods', 'Custos', 'Metodo_Pagamento'); // Preencher Método de Pagamento
+
 // Função para adicionar carro ao Firestore
 document.getElementById('carForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevenir comportamento padrão do formulário
@@ -99,7 +116,6 @@ document.getElementById('carForm').addEventListener('submit', function(event) {
         });
 });
 
-
 // Função para adicionar custo ao Firestore
 document.getElementById('costForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevenir comportamento padrão do formulário
@@ -126,4 +142,3 @@ document.getElementById('costForm').addEventListener('submit', function(event) {
             alert('Erro ao cadastrar o custo: ' + error.message);
         });
 });
-
