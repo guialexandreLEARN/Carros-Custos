@@ -48,13 +48,16 @@ document.getElementById('logoutButton').addEventListener('click', function() {
     });
 });
 
-// Verificação de autenticação
-onAuthStateChanged(auth, (user) => {
-    if (user) {
+/* // Verificação de autenticação
+onAuthStateChanged(auth, (user) => 
+{
+    if (user) 	{
         console.log('Usuário logado: ', user.email);
         document.getElementById('forms').style.display = 'block'; // Mostra os formulários se já estiver logado
         document.getElementById('logoutButton').style.display = 'block'; // Mostra o botão de logout se já estiver logado
-    } else {
+				} 
+					else	{
         console.log('Nenhum usuário logado');
-    }
-});
+							}
+}
+); */
