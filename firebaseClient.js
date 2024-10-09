@@ -93,3 +93,26 @@ document.getElementById('carForm').addEventListener('submit', function(event) {
             alert('Erro ao cadastrar o carro: ' + error.message);
         });
 });
+
+// Função para adicionar custo ao Firestore
+document.getElementById('costForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const costData = {
+        Data: document.getElementById('data').value,
+        Descricao_Custos: document.getElementById('descricaoCustos').value,
+        Metodo_Pagamento: document.getElementById('metodoPagamento').value,
+        RENAVAM_Custo: document.getElementById('renavamCusto').value,
+        Valor_Custos: document.getElementById('valorCustos').value
+    };
+
+    // Adicionando os dados de custo no Firestore
+    addDoc(collection(db, 'Custos'), costData)
+        .then(() => {
+            alert('Custo cadastrado com sucesso!');
+        })
+        .catch((error) => {
+            console.error('Erro ao cadastrar o custo:', error);
+            alert('Erro ao cadastrar o custo: ' + error.message);
+        });
+});
