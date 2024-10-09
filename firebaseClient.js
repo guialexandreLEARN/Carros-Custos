@@ -35,6 +35,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
 
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
+            console.log('Usuário logado: ', userCredential.user.email);
             alert('Login realizado com sucesso!');
             document.getElementById('forms').style.display = 'block'; // Mostra os formulários após o login
             document.getElementById('logoutButton').style.display = 'block'; // Mostra o botão de logout
@@ -83,6 +84,8 @@ document.getElementById('carForm').addEventListener('submit', function(event) {
         Versao: document.getElementById('versao').value
     };
 
+    console.log("Adicionando carro:", carData);
+
     // Adicionando os dados no Firestore
     addDoc(collection(db, 'Caracteristicas'), carData)
         .then(() => {
@@ -94,7 +97,7 @@ document.getElementById('carForm').addEventListener('submit', function(event) {
         });
 });
 
-// Função para adicionar custo ao Firestore
+// Função para adicionar custo ao Firestore com logs para debug
 document.getElementById('costForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
@@ -105,6 +108,8 @@ document.getElementById('costForm').addEventListener('submit', function(event) {
         RENAVAM_Custo: document.getElementById('renavamCusto').value,
         Valor_Custos: document.getElementById('valorCustos').value
     };
+
+    console.log("Adicionando custo:", costData);
 
     // Adicionando os dados de custo no Firestore
     addDoc(collection(db, 'Custos'), costData)
