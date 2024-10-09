@@ -120,7 +120,8 @@
     <h3>Adicionar Custo</h3>
 
     <label>RENAVAM (Relaciona com o carro): 
-        <input type="text" id="renavamCusto">
+        <input list="renavams" id="renavamCusto">
+        <datalist id="renavams"></datalist> <!-- Lista de opções para RENAVAM -->
     </label><br>
     
     <label>Data: 
@@ -128,23 +129,27 @@
     </label><br>
     
     <label>Descrição dos Custos: 
-        <input type="text" id="descricaoCustos">
+        <input list="descriptions" id="descricaoCustos">
+        <datalist id="descriptions"></datalist> <!-- Lista de opções para Descrição -->
     </label><br>
     
     <label>Quem pagou: 
-        <input type="text" id="quemPagou">
+        <input list="quemPagouList" id="quemPagou">
+        <datalist id="quemPagouList"></datalist> <!-- Lista de opções para Quem pagou -->
     </label><br>
     
     <label>Método de Pagamento: 
-        <input type="text" id="metodoPagamento">
+        <input list="paymentMethods" id="metodoPagamento">
+        <datalist id="paymentMethods"></datalist> <!-- Lista de opções para Método de Pagamento -->
     </label><br>
     
     <label>Valor dos Custos: 
-        <input type="number" id="valorCustos" step="0.01"> <!-- Permitir valores decimais -->
+        <input type="number" id="valorCustos" step="0.01">
     </label><br>
     
     <button type="submit">Adicionar Custo</button>
 </form>
+
 
 
     </div>
