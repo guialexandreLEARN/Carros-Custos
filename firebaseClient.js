@@ -69,24 +69,26 @@ onAuthStateChanged(auth, (user) => {
 
 // Função para adicionar carro ao Firestore
 document.getElementById('carForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+    event.preventDefault(); // Prevenir comportamento padrão do formulário
 
+    // Capturando os dados do formulário de "Adicionar Carro"
     const carData = {
-        Ano_Fab: document.getElementById('anoFab').value,
-        Ano_Modelo: document.getElementById('anoModelo').value,
-        Cor: document.getElementById('cor').value,
-        Codigo_FIPE: document.getElementById('codigoFIPE').value,
         RENAVAM: document.getElementById('renavam').value,
         Marca: document.getElementById('marca').value,
         Modelo: document.getElementById('modelo').value,
+        Ano_Fab: document.getElementById('anoFab').value,
+        Ano_Modelo: document.getElementById('anoModelo').value,
+        Versao: document.getElementById('versao').value,
+        Litragem_Motor: document.getElementById('litragemMotor').value,
+        Cor: document.getElementById('cor').value,
         Placa_Antiga: document.getElementById('placaAntiga').value,
         Placa_Mercosul: document.getElementById('placaMercosul').value,
-        Versao: document.getElementById('versao').value
+        Codigo_FIPE: document.getElementById('codigoFIPE').value
     };
 
-    console.log("Adicionando carro:", carData);
+    console.log("Adicionando carro:", carData); // Log para depuração
 
-    // Adicionando os dados no Firestore
+    // Adicionando os dados do carro no Firestore
     addDoc(collection(db, 'Caracteristicas'), carData)
         .then(() => {
             alert('Carro cadastrado com sucesso!');
@@ -96,6 +98,7 @@ document.getElementById('carForm').addEventListener('submit', function(event) {
             alert('Erro ao cadastrar o carro: ' + error.message);
         });
 });
+
 
 // Função para adicionar custo ao Firestore
 document.getElementById('costForm').addEventListener('submit', function(event) {
