@@ -1,12 +1,13 @@
 // firebase.js
 const admin = require('firebase-admin');
+require('dotenv').config(); // Carrega as variáveis de ambiente
 const serviceAccount = require('./vendascarro-estudo-firebase-adminsdk-qpzbm-a8bb66e7e2.json');
 
 // Inicializando o Firebase Admin SDK
 console.log("Inicializando Firebase Admin...");
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://vendascarro-estudo.firebaseio.com"
+  databaseURL: process.env.FIREBASE_DATABASE_URL
 });
 
 const db = admin.firestore();
