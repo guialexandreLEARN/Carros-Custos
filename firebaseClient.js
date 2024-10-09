@@ -73,15 +73,6 @@ async function preencherDatalist(idDatalist, collectionName, fieldName) {
     const datalist = document.getElementById(idDatalist);
     const uniqueValues = new Set();  // Usar Set para armazenar valores únicos
 
-    // Verifica se o datalist existe
-    if (!datalist) {
-        console.error(`Elemento datalist com ID '${idDatalist}' não foi encontrado.`);
-        return; // Sai da função se o datalist não for encontrado
-    }
-
-    const querySnapshot = await getDocs(collection(db, collectionName));
-    const uniqueValues = new Set();  // Usar Set para armazenar valores únicos
-    
     querySnapshot.forEach((doc) => {
         uniqueValues.add(doc.data()[fieldName]);  // Adicionar valores ao Set
     });
@@ -98,76 +89,68 @@ async function preencherDatalist(idDatalist, collectionName, fieldName) {
 }
 
 // Preencher as listas de sugestões no formulário de "Adicionar Carro"
-document.addEventListener('DOMContentLoaded', function() {
-    preencherDatalist('renavamsCar', 'Caracteristicas', 'RENAVAM');
-    preencherDatalist('marcas', 'Caracteristicas', 'Marca');
-    preencherDatalist('modelos', 'Caracteristicas', 'Modelo');
-    preencherDatalist('anosFabricacao', 'Caracteristicas', 'Ano_Fab');
-    preencherDatalist('anosModelo', 'Caracteristicas', 'Ano_Modelo');
-    preencherDatalist('versoes', 'Caracteristicas', 'Versao');
-    preencherDatalist('litragensMotor', 'Caracteristicas', 'Litragem_Motor');
-    preencherDatalist('cores', 'Caracteristicas', 'Cor');
-    preencherDatalist('placasAntigas', 'Caracteristicas', 'Placa_Antiga');
-    preencherDatalist('placasMercosul', 'Caracteristicas', 'Placa_Mercosul');
-    preencherDatalist('codigosFIPE', 'Caracteristicas', 'Codigo_FIPE');
+preencherDatalist('renavamsCar', 'Caracteristicas', 'RENAVAM');  // Preencher RENAVAM
+preencherDatalist('marcas', 'Caracteristicas', 'Marca'); // Preencher Marca
+preencherDatalist('modelos', 'Caracteristicas', 'Modelo'); // Preencher Modelo
+preencherDatalist('anosFabricacao', 'Caracteristicas', 'Ano_Fab'); // Preencher Ano de Fabricação
+preencherDatalist('anosModelo', 'Caracteristicas', 'Ano_Modelo'); // Preencher Ano do Modelo
+preencherDatalist('versoes', 'Caracteristicas', 'Versao'); // Preencher Versão
+preencherDatalist('litragensMotor', 'Caracteristicas', 'Litragem_Motor'); // Preencher Litragem do Motor
+preencherDatalist('cores', 'Caracteristicas', 'Cor'); // Preencher Cor
+preencherDatalist('placasAntigas', 'Caracteristicas', 'Placa_Antiga'); // Preencher Placa Antiga
+preencherDatalist('placasMercosul', 'Caracteristicas', 'Placa_Mercosul'); // Preencher Placa Mercosul
+preencherDatalist('codigosFIPE', 'Caracteristicas', 'Codigo_FIPE'); // Preencher Código FIPE
+
+// Função para buscar os dados do Firestore e preencher o formulário de carro
+async function buscarCarroPorRenavam(renavam) {
+    const docRef = collection(db, 'Caracteristicas');
+    const carroSnapshot = await getDocs(docRef);  // Renomeei a variável para 'carroSnapshot'
+    let carroEncontrado = null;
+
+    carroSnapshot.forEach((doc) => {
+        if (doc.data().RENAVAM === renavam) {
+            carroEncontrado = doc.data();
+        }
+    });
+
+    if (carroEncontrado) {
+        // Preencher o formulário com os dados existentes
+        document.getElementById('marca').value = carroEncontrado.Marca;
+        document.getElementById('modelo').value = carroEncontrado.Modelo;
+        document.getElementById('anoFab').value = carroEncontrado.Ano_Fab;
+        document.getElementById('anoModelo').value = carroEncontrado.Ano_Modelo;
+        document.getElementById('versao').value = carroEncontrado.Versao;
+        document.getElementById('litragemMotor').value = carroEncontrado.Litragem_Motor;
+        document.getElementById('cor').value = carroEncontrado.Cor;
+        document.getElementById('placaAntiga').value = carroEncontrado.Placa_Antiga;
+        document.getElementById('placaMercosul').value = carroEncontrado.Placa_Mercosul;
+        document.getElementById('codigoFIPE').value = carroEncontrado.Codigo_FIPE;
+    } else {
+        // Limpar o formulário para permitir o preenchimento manual
+        document.getElementById('carForm').reset();
+    }
+}
+
+// Ouvinte de evento para quando o usuário mudar o valor do RENAVAM no formulário de carro
+document.getElementById('renavam').addEventListener('change', function() {
+    const renavam = document.getElementById('renavam').value;
+    buscarCarroPorRenavam(renavam);
 });
 
+// Função para buscar os dados do Firestore e preencher o formulário de custo
+async function buscarCustoPorRenavam(renavam) {
+    const docRef = collection(db, 'Custos');
+    const custoSnapshot = await getDocs(docRef);  // Renomeei a variável para 'custoSnapshot'
+    let custoEncontrado = null;
 
-// Função para adicionar carro ao Firestore
-document.getElementById('carForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevenir comportamento padrão do formulário
+    custoSnapshot.forEach((doc) => {
+        if (doc.data().RENAVAM_Custo === renavam) {
+            custoEncontrado = doc.data();
+        }
+    });
 
-    // Capturando os dados do formulário de "Adicionar Carro"
-    const carData = {
-        RENAVAM: document.getElementById('renavam').value,
-        Marca: document.getElementById('marca').value,
-        Modelo: document.getElementById('modelo').value,
-        Ano_Fab: document.getElementById('anoFab').value,
-        Ano_Modelo: document.getElementById('anoModelo').value,
-        Versao: document.getElementById('versao').value,
-        Litragem_Motor: document.getElementById('litragemMotor').value,
-        Cor: document.getElementById('cor').value,
-        Placa_Antiga: document.getElementById('placaAntiga').value,
-        Placa_Mercosul: document.getElementById('placaMercosul').value,
-        Codigo_FIPE: document.getElementById('codigoFIPE').value
-    };
-
-    console.log("Adicionando carro:", carData); // Log para depuração
-
-    // Adicionando os dados do carro no Firestore
-    addDoc(collection(db, 'Caracteristicas'), carData)
-        .then(() => {
-            alert('Carro cadastrado com sucesso!');
-        })
-        .catch((error) => {
-            console.error('Erro ao cadastrar o carro:', error);
-            alert('Erro ao cadastrar o carro: ' + error.message);
-        });
-});
-
-// Função para adicionar custo ao Firestore
-document.getElementById('costForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevenir comportamento padrão do formulário
-
-    // Capturando os dados do formulário de "Adicionar Custo"
-    const costData = {
-        RENAVAM_Custo: document.getElementById('renavamCusto').value,
-        Data: document.getElementById('data').value,
-        Descricao_Custos: document.getElementById('descricaoCustos').value,
-        Quem_Pagou: document.getElementById('quemPagou').value,
-        Metodo_Pagamento: document.getElementById('metodoPagamento').value,
-        Valor_Custos: document.getElementById('valorCustos').value
-    };
-
-    console.log("Adicionando custo:", costData); // Log para depuração
-
-    // Adicionando os dados do custo no Firestore
-    addDoc(collection(db, 'Custos'), costData)
-        .then(() => {
-            alert('Custo cadastrado com sucesso!');
-        })
-        .catch((error) => {
-            console.error('Erro ao cadastrar o custo:', error);
-            alert('Erro ao cadastrar o custo: ' + error.message);
-        });
-});
+    if (custoEncontrado) {
+        // Preencher o formulário com os dados existentes
+        document.getElementById('data').value = custoEncontrado.Data;
+        document.getElementById('descricaoCustos').value = custoEncontrado.Descricao_Custos;
+        document.getElementById('quemPagou').value = custoEncontrado.Quem_Pag
