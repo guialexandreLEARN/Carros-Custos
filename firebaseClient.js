@@ -88,11 +88,18 @@ async function preencherDatalist(idDatalist, collectionName, fieldName) {
     });
 }
 
-// Preencher as listas de sugestões no formulário
-preencherDatalist('renavams', 'Caracteristicas', 'RENAVAM');  // Preencher RENAVAM
-preencherDatalist('descriptions', 'Custos', 'Descricao_Custos'); // Preencher Descrição dos Custos
-preencherDatalist('quemPagouList', 'Custos', 'Quem_Pagou'); // Preencher Quem pagou
-preencherDatalist('paymentMethods', 'Custos', 'Metodo_Pagamento'); // Preencher Método de Pagamento
+// Preencher as listas de sugestões no formulário de "Adicionar Carro"
+preencherDatalist('renavamsCar', 'Caracteristicas', 'RENAVAM');  // Preencher RENAVAM
+preencherDatalist('marcas', 'Caracteristicas', 'Marca'); // Preencher Marca
+preencherDatalist('modelos', 'Caracteristicas', 'Modelo'); // Preencher Modelo
+preencherDatalist('anosFabricacao', 'Caracteristicas', 'Ano_Fab'); // Preencher Ano de Fabricação
+preencherDatalist('anosModelo', 'Caracteristicas', 'Ano_Modelo'); // Preencher Ano do Modelo
+preencherDatalist('versoes', 'Caracteristicas', 'Versao'); // Preencher Versão
+preencherDatalist('litragensMotor', 'Caracteristicas', 'Litragem_Motor'); // Preencher Litragem do Motor
+preencherDatalist('cores', 'Caracteristicas', 'Cor'); // Preencher Cor
+preencherDatalist('placasAntigas', 'Caracteristicas', 'Placa_Antiga'); // Preencher Placa Antiga
+preencherDatalist('placasMercosul', 'Caracteristicas', 'Placa_Mercosul'); // Preencher Placa Mercosul
+preencherDatalist('codigosFIPE', 'Caracteristicas', 'Codigo_FIPE'); // Preencher Código FIPE
 
 // Função para adicionar carro ao Firestore
 document.getElementById('carForm').addEventListener('submit', function(event) {
