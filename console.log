@@ -1,0 +1,54 @@
+// Inicializando Firebase
+console.log("Iniciando Firebase...");
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+console.log("Firebase inicializado com sucesso.");
+
+// Login
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    console.log("Tentando logar com email:", email);
+    
+    signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+            console.log("Login realizado com sucesso!");
+            alert('Login realizado com sucesso!');
+        })
+        .catch((error) => {
+            console.error('Erro ao fazer login:', error);
+            alert('Erro ao fazer login: ' + error.message);
+        });
+});
+
+// Adicionar Carro
+document.getElementById('carForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const carData = {
+        Ano_Fab: document.getElementById('anoFab').value,
+        Ano_Modelo: document.getElementById('anoModelo').value,
+        Cor: document.getElementById('cor').value,
+        Código_FIPE: document.getElementById('codigoFIPE').value,
+        Litragem_Motor: document.getElementById('litragemMotor').value,
+        Marca: document.getElementById('marca').value,
+        Modelo: document.getElementById('modelo').value,
+        Placa_Antiga: document.getElementById('placaAntiga').value,
+        Placa_Mercosul: document.getElementById('placaMercosul').value,
+        RENAVAM: document.getElementById('renavam').value,
+        Versão: document.getElementById('versao').value,
+    };
+
+    console.log("Dados do carro a serem adicionados:", carData);
+
+    setDoc(doc(db, 'Caracteristicas', carData.RENAVAM), carData)
+        .then(() => {
+            console.log("Carro adicionado com sucesso!");
+            alert('Carro adicionado com sucesso!');
+        })
+        .catch((error) => {
+            console.error('Erro ao adicionar carro:', error);
+        });
+});
