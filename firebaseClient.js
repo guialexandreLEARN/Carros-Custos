@@ -67,7 +67,7 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
-// Função para preencher datalists com dados distintos do Firestore
+// Função para preencher datalists com dados distintos e ordenados alfabeticamente do Firestore
 async function preencherDatalist(idDatalist, collectionName, fieldName) {
     const querySnapshot = await getDocs(collection(db, collectionName));
     const datalist = document.getElementById(idDatalist);
@@ -77,7 +77,11 @@ async function preencherDatalist(idDatalist, collectionName, fieldName) {
         uniqueValues.add(doc.data()[fieldName]);  // Adicionar valores ao Set
     });
 
-    uniqueValues.forEach((value) => {
+    // Converter o Set em um array e ordenar alfabeticamente
+    const sortedValues = Array.from(uniqueValues).sort();
+
+    // Adicionar os valores ao datalist
+    sortedValues.forEach((value) => {
         const option = document.createElement('option');
         option.value = value;
         datalist.appendChild(option);
