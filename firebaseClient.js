@@ -73,6 +73,15 @@ async function preencherDatalist(idDatalist, collectionName, fieldName) {
     const datalist = document.getElementById(idDatalist);
     const uniqueValues = new Set();  // Usar Set para armazenar valores únicos
 
+    // Verifica se o datalist existe
+    if (!datalist) {
+        console.error(`Elemento datalist com ID '${idDatalist}' não foi encontrado.`);
+        return; // Sai da função se o datalist não for encontrado
+    }
+
+    const querySnapshot = await getDocs(collection(db, collectionName));
+    const uniqueValues = new Set();  // Usar Set para armazenar valores únicos
+    
     querySnapshot.forEach((doc) => {
         uniqueValues.add(doc.data()[fieldName]);  // Adicionar valores ao Set
     });
@@ -89,17 +98,20 @@ async function preencherDatalist(idDatalist, collectionName, fieldName) {
 }
 
 // Preencher as listas de sugestões no formulário de "Adicionar Carro"
-preencherDatalist('renavamsCar', 'Caracteristicas', 'RENAVAM');  // Preencher RENAVAM
-preencherDatalist('marcas', 'Caracteristicas', 'Marca'); // Preencher Marca
-preencherDatalist('modelos', 'Caracteristicas', 'Modelo'); // Preencher Modelo
-preencherDatalist('anosFabricacao', 'Caracteristicas', 'Ano_Fab'); // Preencher Ano de Fabricação
-preencherDatalist('anosModelo', 'Caracteristicas', 'Ano_Modelo'); // Preencher Ano do Modelo
-preencherDatalist('versoes', 'Caracteristicas', 'Versao'); // Preencher Versão
-preencherDatalist('litragensMotor', 'Caracteristicas', 'Litragem_Motor'); // Preencher Litragem do Motor
-preencherDatalist('cores', 'Caracteristicas', 'Cor'); // Preencher Cor
-preencherDatalist('placasAntigas', 'Caracteristicas', 'Placa_Antiga'); // Preencher Placa Antiga
-preencherDatalist('placasMercosul', 'Caracteristicas', 'Placa_Mercosul'); // Preencher Placa Mercosul
-preencherDatalist('codigosFIPE', 'Caracteristicas', 'Codigo_FIPE'); // Preencher Código FIPE
+document.addEventListener('DOMContentLoaded', function() {
+    preencherDatalist('renavamsCar', 'Caracteristicas', 'RENAVAM');
+    preencherDatalist('marcas', 'Caracteristicas', 'Marca');
+    preencherDatalist('modelos', 'Caracteristicas', 'Modelo');
+    preencherDatalist('anosFabricacao', 'Caracteristicas', 'Ano_Fab');
+    preencherDatalist('anosModelo', 'Caracteristicas', 'Ano_Modelo');
+    preencherDatalist('versoes', 'Caracteristicas', 'Versao');
+    preencherDatalist('litragensMotor', 'Caracteristicas', 'Litragem_Motor');
+    preencherDatalist('cores', 'Caracteristicas', 'Cor');
+    preencherDatalist('placasAntigas', 'Caracteristicas', 'Placa_Antiga');
+    preencherDatalist('placasMercosul', 'Caracteristicas', 'Placa_Mercosul');
+    preencherDatalist('codigosFIPE', 'Caracteristicas', 'Codigo_FIPE');
+});
+
 
 // Função para adicionar carro ao Firestore
 document.getElementById('carForm').addEventListener('submit', function(event) {
