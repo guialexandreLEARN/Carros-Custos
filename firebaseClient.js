@@ -97,9 +97,9 @@ document.getElementById('carForm').addEventListener('submit', function(event) {
         });
 });
 
-// Função para adicionar custo ao Firestore com logs para debug
+// Função para adicionar custo ao Firestore
 document.getElementById('costForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+    event.preventDefault(); // Previne o comportamento padrão do formulário
 
     const costData = {
         Data: document.getElementById('data').value,
