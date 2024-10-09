@@ -99,17 +99,19 @@ document.getElementById('carForm').addEventListener('submit', function(event) {
 
 // Função para adicionar custo ao Firestore
 document.getElementById('costForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Previne o comportamento padrão do formulário
+    event.preventDefault(); // Prevenir comportamento padrão do formulário
 
+    // Capturando os dados do formulário
     const costData = {
         Data: document.getElementById('data').value,
         Descricao_Custos: document.getElementById('descricaoCustos').value,
         Metodo_Pagamento: document.getElementById('metodoPagamento').value,
         RENAVAM_Custo: document.getElementById('renavamCusto').value,
-        Valor_Custos: document.getElementById('valorCustos').value
+        Valor_Custos: document.getElementById('valorCustos').value,
+        Quem_Pagou: document.getElementById('quemPagou').value 
     };
 
-    console.log("Adicionando custo:", costData);
+    console.log("Adicionando custo:", costData); // Log para ver os dados no console
 
     // Adicionando os dados de custo no Firestore
     addDoc(collection(db, 'Custos'), costData)
