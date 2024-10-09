@@ -104,19 +104,19 @@ document.getElementById('carForm').addEventListener('submit', function(event) {
 document.getElementById('costForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevenir comportamento padrão do formulário
 
-    // Capturando os dados do formulário
+    // Capturando os dados do formulário de "Adicionar Custo"
     const costData = {
+        RENAVAM_Custo: document.getElementById('renavamCusto').value,
         Data: document.getElementById('data').value,
         Descricao_Custos: document.getElementById('descricaoCustos').value,
+        Quem_Pagou: document.getElementById('quemPagou').value,
         Metodo_Pagamento: document.getElementById('metodoPagamento').value,
-        RENAVAM_Custo: document.getElementById('renavamCusto').value,
-        Valor_Custos: document.getElementById('valorCustos').value,
-        Quem_Pagou: document.getElementById('quemPagou').value 
+        Valor_Custos: document.getElementById('valorCustos').value
     };
 
-    console.log("Adicionando custo:", costData); // Log para ver os dados no console
+    console.log("Adicionando custo:", costData); // Log para depuração
 
-    // Adicionando os dados de custo no Firestore
+    // Adicionando os dados do custo no Firestore
     addDoc(collection(db, 'Custos'), costData)
         .then(() => {
             alert('Custo cadastrado com sucesso!');
@@ -126,3 +126,4 @@ document.getElementById('costForm').addEventListener('submit', function(event) {
             alert('Erro ao cadastrar o custo: ' + error.message);
         });
 });
+
