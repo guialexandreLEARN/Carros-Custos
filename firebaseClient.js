@@ -1,7 +1,5 @@
-// firebaseClient.js
-
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js';
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, browserLocalPersistence } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js';
 import { getFirestore } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
 
 // Configuração do Firebase (frontend)
@@ -19,6 +17,16 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+
+// Definir a persistência de login para 'local' (persistência no navegador)
+auth.setPersistence(browserLocalPersistence)
+    .then(() => {
+        console.log("Persistência de autenticação definida para 'local'.");
+        // Continua com as operações normais de login...
+    })
+    .catch((error) => {
+        console.error("Erro ao definir a persistência de autenticação:", error);
+    });
 
 // Função de login
 document.getElementById('loginForm').addEventListener('submit', function(event) {
@@ -48,4 +56,13 @@ document.getElementById('logoutButton').addEventListener('click', function() {
     });
 });
 
-
+// Verificação de autenticação
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        console.log('Usuário logado: ', user.email);
+        document.getElementById('forms').style.display = 'block'; // Mostra os formulários se já estiver logado
+        document.getElementById('logoutButton').style.display = 'block'; // Mostra o botão de logout se já estiver logado
+    } else {
+        console.log('Nenhum usuário logado');
+    }
+});
