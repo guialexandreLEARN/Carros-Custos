@@ -1,6 +1,6 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, browserLocalPersistence } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js';
-import { getFirestore } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
+import { getFirestore, collection, addDoc } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
 
 // Configuração do Firebase (frontend)
 const firebaseConfig = {
@@ -22,7 +22,6 @@ const db = getFirestore(app);
 auth.setPersistence(browserLocalPersistence)
     .then(() => {
         console.log("Persistência de autenticação definida para 'local'.");
-        // Continua com as operações normais de login...
     })
     .catch((error) => {
         console.error("Erro ao definir a persistência de autenticação:", error);
@@ -65,4 +64,32 @@ onAuthStateChanged(auth, (user) => {
     } else {
         console.log('Nenhum usuário logado');
     }
+});
+
+// Função para adicionar carro ao Firestore
+document.getElementById('carForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const carData = {
+        Ano_Fab: document.getElementById('anoFab').value,
+        Ano_Modelo: document.getElementById('anoModelo').value,
+        Cor: document.getElementById('cor').value,
+        Codigo_FIPE: document.getElementById('codigoFIPE').value,
+        RENAVAM: document.getElementById('renavam').value,
+        Marca: document.getElementById('marca').value,
+        Modelo: document.getElementById('modelo').value,
+        Placa_Antiga: document.getElementById('placaAntiga').value,
+        Placa_Mercosul: document.getElementById('placaMercosul').value,
+        Versao: document.getElementById('versao').value
+    };
+
+    // Adicionando os dados no Firestore
+    addDoc(collection(db, 'Caracteristicas'), carData)
+        .then(() => {
+            alert('Carro cadastrado com sucesso!');
+        })
+        .catch((error) => {
+            console.error('Erro ao cadastrar o carro:', error);
+            alert('Erro ao cadastrar o carro: ' + error.message);
+        });
 });
