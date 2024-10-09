@@ -47,65 +47,6 @@
 </style>
 
 <body>
-	<script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
-        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js';
-        import { getFirestore, collection, addDoc } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
-
-        // Configuração Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyCWT72-XVlMkIBU64KhAbeZhaykRfln5As",
-            authDomain: "vendascarro-estudo.firebaseapp.com",
-            projectId: "vendascarro-estudo",
-            storageBucket: "vendascarro-estudo.appspot.com",
-            messagingSenderId: "1065254193744",
-            appId: "1:1065254193744:web:0154a1cb974c9658c19f55",
-            measurementId: "G-ME5MH151S1"
-        };
-
-        // Inicializar Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        // Função de login
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-
-            signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    alert('Login realizado com sucesso!');
-                    document.getElementById('forms').style.display = 'block'; // Mostra os formulários após o login
-                })
-                .catch((error) => {
-                    alert('Erro ao fazer login: ' + error.message);
-                });
-        });
-
-        // Função de logout
-        document.getElementById('logoutButton').addEventListener('click', function() {
-            signOut(auth).then(() => {
-                alert('Logout realizado com sucesso!');
-                document.getElementById('forms').style.display = 'none'; // Esconde os formulários após o logout
-                document.getElementById('logoutButton').style.display = 'none'; // Esconde o botão de sair
-            }).catch((error) => {
-                alert('Erro ao fazer logout: ' + error.message);
-            });
-        });
-		
-        // Verificação de autenticação
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                console.log('Usuário logado: ', user.email);
-                document.getElementById('forms').style.display = 'block'; // Mostra os formulários se já estiver logado
-            } else {
-                console.log('Nenhum usuário logado');
-            }
-        });
-    </script>
-	
     <h1>Gerenciar Carros e Custos</h1>
 
     <h2>Login</h2>
@@ -114,6 +55,9 @@
         <label>Senha: <input type="password" id="password" required></label><br>
         <button type="submit">Entrar</button>
     </form>
+
+    <!-- Botão de logout -->
+    <button id="logoutButton" style="display: none;">Sair</button>
 
     <!-- Formulários para adicionar carro e custo -->
     <div id="forms" style="display: none;">
@@ -144,6 +88,65 @@
         </form>
     </div>
 
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js';
+        import { getFirestore, collection, addDoc } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
 
+        // Configuração Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCWT72-XVlMkIBU64KhAbeZhaykRfln5As",
+            authDomain: "vendascarro-estudo.firebaseapp.com",
+            projectId: "vendascarro-estudo",
+            storageBucket: "vendascarro-estudo.appspot.com",
+            messagingSenderId: "1065254193744",
+            appId: "1:1065254193744:web:0154a1cb974c9658c19f55",
+            measurementId: "G-ME5MH151S1"
+        };
+
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Função de login
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    alert('Login realizado com sucesso!');
+                    document.getElementById('forms').style.display = 'block'; // Mostra os formulários após o login
+                    document.getElementById('logoutButton').style.display = 'block'; // Mostra o botão de logout
+                })
+                .catch((error) => {
+                    alert('Erro ao fazer login: ' + error.message);
+                });
+        });
+
+        // Função de logout
+        document.getElementById('logoutButton').addEventListener('click', function() {
+            signOut(auth).then(() => {
+                alert('Logout realizado com sucesso!');
+                document.getElementById('forms').style.display = 'none'; // Esconde os formulários após o logout
+                document.getElementById('logoutButton').style.display = 'none'; // Esconde o botão de sair
+            }).catch((error) => {
+                alert('Erro ao fazer logout: ' + error.message);
+            });
+        });
+
+        // Verificação de autenticação
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log('Usuário logado: ', user.email);
+                document.getElementById('forms').style.display = 'block'; // Mostra os formulários se já estiver logado
+                document.getElementById('logoutButton').style.display = 'block'; // Mostra o botão de logout se já estiver logado
+            } else {
+                console.log('Nenhum usuário logado');
+            }
+        });
+    </script>
 </body>
 </html>
