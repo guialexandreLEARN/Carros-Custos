@@ -84,6 +84,17 @@
                 });
         });
 
+        // Função de logout
+        document.getElementById('logoutButton').addEventListener('click', function() {
+            signOut(auth).then(() => {
+                alert('Logout realizado com sucesso!');
+                document.getElementById('forms').style.display = 'none'; // Esconde os formulários após o logout
+                document.getElementById('logoutButton').style.display = 'none'; // Esconde o botão de sair
+            }).catch((error) => {
+                alert('Erro ao fazer logout: ' + error.message);
+            });
+        });
+		
         // Verificação de autenticação
         onAuthStateChanged(auth, (user) => {
             if (user) {
