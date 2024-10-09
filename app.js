@@ -53,19 +53,30 @@
         import { getFirestore, collection, doc, setDoc, addDoc } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
         import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js';
 
-        // Configurar Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyCWT72-XVlMkIBU64KhAbeZhaykRfln5As",
-            authDomain: "vendascarro-estudo.firebaseapp.com",
-            projectId: "vendascarro-estudo",
-            storageBucket: "vendascarro-estudo.appspot.com",
-            messagingSenderId: "1065254193744",
-            appId: "1:1065254193744:web:0154a1cb974c9658c19f55",
-        };
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCWT72-XVlMkIBU64KhAbeZhaykRfln5As",
+  authDomain: "vendascarro-estudo.firebaseapp.com",
+  projectId: "vendascarro-estudo",
+  storageBucket: "vendascarro-estudo.appspot.com",
+  messagingSenderId: "1065254193744",
+  appId: "1:1065254193744:web:0154a1cb974c9658c19f55",
+  measurementId: "G-ME5MH151S1"
+};
+
+
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
+        const analytics = getAnalytics(app);
 
         // Login
         document.getElementById('loginForm').addEventListener('submit', function(event) {
