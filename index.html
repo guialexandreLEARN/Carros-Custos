@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carros e Custos</title>
+</head>
+<body>
+    <h1>Gerenciar Carros e Custos</h1>
+
+    <h2>Login</h2>
+    <form id="loginForm">
+        <label>Email: <input type="email" id="email" required></label><br>
+        <label>Senha: <input type="password" id="password" required></label><br>
+        <button type="submit">Entrar</button>
+    </form>
+
+    <script type="module">
+        // Importando módulos do Firebase SDK versão 9.x.x
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js';
+
+        // Configurar Firebase no cliente (frontend)
+        const firebaseConfig = {
+            apiKey: "AIzaSyCWT72-XVlMkIBU64KhAbeZhaykRfln5As",
+            authDomain: "vendascarro-estudo.firebaseapp.com",
+            projectId: "vendascarro-estudo",
+            storageBucket: "vendascarro-estudo.appspot.com",
+            messagingSenderId: "1065254193744",
+            appId: "1:1065254193744:web:0154a1cb974c9658c19f55",
+            measurementId: "G-ME5MH151S1"
+        };
+
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Função de login
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Previne o comportamento padrão do formulário
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (email === "" || password === "") {
+                alert("Por favor, preencha os campos de email e senha.");
+                return;
+            }
+
+            // Tentativa de login
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    alert('Login realizado com sucesso!');
+                    console.log('Usuário logado: ', userCredential.user.email);
+                })
+                .catch((error) => {
+                    console.error('Erro ao fazer login: ', error);
+                    alert('Erro ao fazer login: ' + error.message);
+                });
+        });
+
+        // Verificar o estado de autenticação
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log('Usuário logado: ', user.email);
+            } else {
+                console.log('Nenhum usuário logado');
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+    <!-- Formulário para Adicionar Carro -->
+    <form id="carForm">
+        <h3>Adicionar Carro</h3>
+        <label>Ano de Fabricação: <input type="text" id="anoFab"></label><br>
+        <label>Ano do Modelo: <input type="text" id="anoModelo"></label><br>
+        <label>Cor: <input type="text" id="cor"></label><br>
+        <label>Código FIPE: <input type="text" id="codigoFIPE"></label><br>
+        <label>Litragem do Motor: <input type="text" id="litragemMotor"></label><br>
+        <label>Marca: <input type="text" id="marca"></label><br>
+        <label>Modelo: <input type="text" id="modelo"></label><br>
+        <label>Placa Antiga: <input type="text" id="placaAntiga"></label><br>
+        <label>Placa Mercosul: <input type="text" id="placaMercosul"></label><br>
+        <label>RENAVAM (Chave Primária): <input type="text" id="renavam"></label><br>
+        <label>Versão: <input type="text" id="versao"></label><br>
+        <button type="submit">Adicionar Carro</button>
+    </form>
+
+    <form id="costForm">
+        <h3>Adicionar Custo</h3>
+        <label>Data: <input type="date" id="data"></label><br>
+        <label>Descrição dos Custos: <input type="text" id="descricaoCustos"></label><br>
+        <label>Método de Pagamento: <input type="text" id="metodoPagamento"></label><br>
+        <label>RENAVAM (Relaciona com o carro): <input type="text" id="renavamCusto"></label><br>
+        <label>Valor dos Custos: <input type="number" id="valorCustos"></label><br>
+        <button type="submit">Adicionar Custo</button>
+    </form>
+
+    <!-- Carregar o Firebase SDK versão 9.x.x -->
+    <script type="module">
+        // Importando módulos do Firebase SDK versão 9.x.x
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
+        import { getFirestore, collection, doc, setDoc, addDoc } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js';
+
+        // Configurar Firebase no cliente (frontend)
+        const firebaseConfig = {
+            apiKey: "AIzaSyCWT72-XVlMkIBU64KhAbeZhaykRfln5As",
+            authDomain: "vendascarro-estudo.firebaseapp.com",
+            projectId: "vendascarro-estudo",
+            storageBucket: "vendascarro-estudo.appspot.com",
+            messagingSenderId: "1065254193744",
+            appId: "1:1065254193744:web:0154a1cb974c9658c19f55",
+            measurementId: "G-ME5MH151S1"
+        };
+
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // Função de login
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    alert('Login realizado com sucesso!');
+                })
+                .catch((error) => {
+                    console.error('Erro ao fazer login: ', error);
+                    alert('Erro ao fazer login: ' + error.message);
+                });
+        });
+
+        // Verificar o estado de autenticação
+        onAuthStateChanged(auth, (user) => {
+       
