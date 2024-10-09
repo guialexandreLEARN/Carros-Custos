@@ -67,13 +67,19 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
-// Função para preencher datalists com dados do Firestore
+// Função para preencher datalists com dados distintos do Firestore
 async function preencherDatalist(idDatalist, collectionName, fieldName) {
     const querySnapshot = await getDocs(collection(db, collectionName));
     const datalist = document.getElementById(idDatalist);
+    const uniqueValues = new Set();  // Usar Set para armazenar valores únicos
+
     querySnapshot.forEach((doc) => {
+        uniqueValues.add(doc.data()[fieldName]);  // Adicionar valores ao Set
+    });
+
+    uniqueValues.forEach((value) => {
         const option = document.createElement('option');
-        option.value = doc.data()[fieldName]; // Captura o valor do campo específico
+        option.value = value;
         datalist.appendChild(option);
     });
 }
