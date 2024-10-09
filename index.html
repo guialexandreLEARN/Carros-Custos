@@ -52,10 +52,10 @@
     <h2>Login</h2>
     <form id="loginForm">
         <label>Email: 
-            <input type="email" id="email" name="email" required autocomplete="email">
+            <input type="email" id="email" required>
         </label><br>
         <label>Senha: 
-            <input type="password" id="password" name="password" required autocomplete="current-password">
+            <input type="password" id="password" required>
         </label><br>
         <button type="submit">Entrar</button>
     </form>
@@ -68,34 +68,25 @@
         <form id="carForm">
             <h3>Adicionar Carro</h3>
             <label>Ano de Fabricação: 
-                <input type="text" id="anoFab" name="anoFab" autocomplete="off">
+                <input type="text" id="anoFab">
             </label><br>
             <label>Ano do Modelo: 
-                <input type="text" id="anoModelo" name="anoModelo" autocomplete="off">
+                <input type="text" id="anoModelo">
             </label><br>
             <label>Cor: 
-                <input type="text" id="cor" name="cor" autocomplete="off">
+                <input type="text" id="cor">
             </label><br>
             <label>Código FIPE: 
-                <input type="text" id="codigoFIPE" name="codigoFIPE" autocomplete="off">
+                <input type="text" id="codigoFIPE">
             </label><br>
             <label>RENAVAM (Chave Primária): 
-                <input type="text" id="renavam" name="renavam" autocomplete="off">
+                <input type="text" id="renavam">
             </label><br>
             <label>Marca: 
-                <input type="text" id="marca" name="marca" autocomplete="off">
+                <input type="text" id="marca">
             </label><br>
             <label>Modelo: 
-                <input type="text" id="modelo" name="modelo" autocomplete="off">
-            </label><br>
-            <label>Placa Antiga: 
-                <input type="text" id="placaAntiga" name="placaAntiga" autocomplete="off">
-            </label><br>
-            <label>Placa Mercosul: 
-                <input type="text" id="placaMercosul" name="placaMercosul" autocomplete="off">
-            </label><br>
-            <label>Versão: 
-                <input type="text" id="versao" name="versao" autocomplete="off">
+                <input type="text" id="modelo">
             </label><br>
             <button type="submit">Adicionar Carro</button>
         </form>
@@ -103,24 +94,26 @@
         <form id="costForm">
             <h3>Adicionar Custo</h3>
             <label>Data: 
-                <input type="date" id="data" name="data" autocomplete="off">
+                <input type="date" id="data">
             </label><br>
             <label>Descrição dos Custos: 
-                <input type="text" id="descricaoCustos" name="descricaoCustos" autocomplete="off">
+                <input type="text" id="descricaoCustos">
             </label><br>
             <label>Método de Pagamento: 
-                <input type="text" id="metodoPagamento" name="metodoPagamento" autocomplete="off">
+                <input type="text" id="metodoPagamento">
             </label><br>
             <label>RENAVAM (Relaciona com o carro): 
-                <input type="text" id="renavamCusto" name="renavamCusto" autocomplete="off">
+                <input type="text" id="renavamCusto">
             </label><br>
             <label>Valor dos Custos: 
-                <input type="number" id="valorCustos" name="valorCustos" autocomplete="off">
+                <input type="number" id="valorCustos">
             </label><br>
             <button type="submit">Adicionar Custo</button>
         </form>
     </div>
 
+    <!-- Incluindo o script do frontend (firebaseClient.js) -->
     <script type="module" src="firebaseClient.js"></script>
+
 </body>
 </html>
