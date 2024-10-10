@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    // Definir a persistência de login para 'local' (persistência no navegador)
+    // Definir a persistência de login para 'local'
     auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
         .then(() => {
             console.log("Persistência de autenticação definida para 'local'.");
@@ -29,20 +29,63 @@ document.addEventListener('DOMContentLoaded', function() {
     auth.onAuthStateChanged((user) => {
         if (user) {
             console.log('Usuário logado:', user.email);
-            document.getElementById('forms').style.display = 'block'; // Mostra os formulários após o login
-            document.getElementById('logoutButton').style.display = 'block'; // Mostra o botão de logout
+            document.getElementById('forms').style.display = 'block';
+            document.getElementById('logoutButton').style.display = 'block';
+
+            // Chamar função para preencher as listas de sugestões após o login
+            preencherDatalist('renavamsCar', 'Caracteristicas', 'RENAVAM');
+            preencherDatalist('marcas', 'Caracteristicas', 'Marca');
+            preencherDatalist('modelos', 'Caracteristicas', 'Modelo');
+            preencherDatalist('anosFabricacao', 'Caracteristicas', 'Ano_Fab');
+            preencherDatalist('anosModelo', 'Caracteristicas', 'Ano_Modelo');
+            preencherDatalist('versoes', 'Caracteristicas', 'Versao');
+            preencherDatalist('litragensMotor', 'Caracteristicas', 'Litragem_Motor');
+            preencherDatalist('cores', 'Caracteristicas', 'Cor');
+            preencherDatalist('placasAntigas', 'Caracteristicas', 'Placa_Antiga');
+            preencherDatalist('placasMercosul', 'Caracteristicas', 'Placa_Mercosul');
+            preencherDatalist('codigosFIPE', 'Caracteristicas', 'Codigo_FIPE');
+
         } else {
             console.log('Nenhum usuário logado');
-            document.getElementById('forms').style.display = 'none'; // Esconde os formulários se o usuário deslogar
-            document.getElementById('logoutButton').style.display = 'none'; // Esconde o botão de logout
+            document.getElementById('forms').style.display = 'none';
+            document.getElementById('logoutButton').style.display = 'none';
         }
     });
+
+    // Função para preencher os datalists com dados do Firestore
+    function preencherDatalist(datalistId, collection, field) {
+        const datalistElement = document.getElementById(datalistId);
+        if (!datalistElement) {
+            console.error(`Elemento ${datalistId} não encontrado.`);
+            return;
+        }
+
+        // Busca os dados no Firestore
+        db.collection(collection).get()
+            .then((querySnapshot) => {
+                const uniqueValues = new Set();  // Para evitar valores duplicados
+                querySnapshot.forEach((doc) => {
+                    uniqueValues.add(doc.data()[field]);
+                });
+
+                // Ordena os valores e adiciona ao datalist
+                const sortedValues = Array.from(uniqueValues).sort();
+                sortedValues.forEach((value) => {
+                    const option = document.createElement('option');
+                    option.value = value;
+                    datalistElement.appendChild(option);
+                });
+            })
+            .catch((error) => {
+                console.error("Erro ao buscar dados do Firestore: ", error);
+            });
+    }
 
     // Função de login
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Previne o comportamento padrão do envio do formulário
+            event.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
@@ -59,27 +102,11 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error("Elemento 'loginForm' não encontrado.");
     }
 
-    // Função de logout
-    const logoutButton = document.getElementById('logoutButton');
-    if (logoutButton) {
-        logoutButton.addEventListener('click', function() {
-            auth.signOut().then(() => {
-                alert('Logout realizado com sucesso!');
-            }).catch((error) => {
-                alert('Erro ao fazer logout: ' + error.message);
-            });
-        });
-    } else {
-        console.error("Elemento 'logoutButton' não encontrado.");
-    }
-
     // Função para adicionar carro ao Firestore
     const carForm = document.getElementById('carForm');
     if (carForm) {
         carForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Previne o comportamento padrão de envio do formulário
-
-            // Captura os valores do formulário
+            event.preventDefault();
             const renavam = document.getElementById('renavam').value;
             const marca = document.getElementById('marca').value;
             const modelo = document.getElementById('modelo').value;
@@ -92,7 +119,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const placaMercosul = document.getElementById('placaMercosul').value;
             const codigoFIPE = document.getElementById('codigoFIPE').value;
 
-            // Salva os dados do carro no Firestore
             db.collection('Caracteristicas').add({
                 RENAVAM: renavam,
                 Marca: marca,
@@ -118,20 +144,17 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error("Elemento 'carForm' não encontrado.");
     }
 
-    // Função para adicionar custo
+    // Função para adicionar custo ao Firestore
     const costForm = document.getElementById('costForm');
     if (costForm) {
         costForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Previne o comportamento padrão de envio do formulário
-
-            // Captura os valores do formulário
+            event.preventDefault();
             const renavamCusto = document.getElementById('renavamCusto').value;
             const descricaoCustos = document.getElementById('descricaoCustos').value;
             const quemPagou = document.getElementById('quemPagou').value;
             const metodoPagamento = document.getElementById('metodoPagamento').value;
             const valorCustos = document.getElementById('valorCustos').value;
 
-            // Aqui você pode adicionar lógica para salvar os dados no Firebase ou onde necessário
             db.collection('Custos').add({
                 RENAVAM_Custo: renavamCusto,
                 Descricao_Custos: descricaoCustos,
