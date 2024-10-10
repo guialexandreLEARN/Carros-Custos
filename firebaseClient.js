@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     // Inicializando o Firebase
-    const app = firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
 
