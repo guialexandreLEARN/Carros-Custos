@@ -155,5 +155,10 @@ document.getElementById('editCarButton').addEventListener('click', function() {
     atualizarCarroBackend(carId, carData);  // Chama função backend
 });
 
+    document.getElementById('deleteCarButton').addEventListener('click', function() {
+    const carId = document.getElementById('renavam').value; // Usa RENAVAM como ID
+    excluirCarroBackend(carId);  // Chama função backend
+});
+
     
 });
