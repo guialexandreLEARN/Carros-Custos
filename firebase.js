@@ -1,4 +1,4 @@
-// firebase.js
+ // firebase.js
 const admin = require('firebase-admin');
 require('dotenv').config(); // Carrega as variáveis de ambiente
 const serviceAccount = require('./vendascarro-estudo-firebase-adminsdk-qpzbm-a8bb66e7e2.json');
