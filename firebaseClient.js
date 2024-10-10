@@ -138,31 +138,4 @@ document.addEventListener('DOMContentLoaded', function() {
         buscarCarroPorRenavam(renavam);
     });
 
-    // Função para buscar os dados do Firestore e preencher o formulário de custo
-    async function buscarCustoPorRenavam(renavam) {
-        const custoSnapshot = await db.collection('Custos').get();
-        let custoEncontrado = null;
-
-        custoSnapshot.forEach((doc) => {
-            if (doc.data().RENAVAM_Custo === renavam) {
-                custoEncontrado = doc.data();
-            }
-        });
-
-        if (custoEncontrado) {
-            document.getElementById('data').value = custoEncontrado.Data;
-            document.getElementById('descricaoCustos').value = custoEncontrado.Descricao_Custos;
-            document.getElementById('quemPagou').value = custoEncontrado.Quem_Pagou;
-            document.getElementById('metodoPagamento').value = custoEncontrado.Metodo_Pagamento;
-            document.getElementById('valorCustos').value = custoEncontrado.Valor_Custos;
-        } else {
-            document.getElementById('costForm').reset();
-        }
-    }
-
-    // Ouvinte de evento para quando o usuário mudar o valor do RENAVAM no formulário de custo
-    document.getElementById('renavamCusto').addEventListener('change', function() {
-        const renavam = document.getElementById('renavamCusto').value;
-        buscarCustoPorRenavam(renavam);
-    });
 });
