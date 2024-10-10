@@ -12,12 +12,12 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     // Inicializando o Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
 
     // Definir a persistência de login para 'local' (persistência no navegador)
-    auth.setPersistence(browserLocalPersistence)
+    auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
         .then(() => {
             console.log("Persistência de autenticação definida para 'local'.");
         })
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
-        signInWithEmailAndPassword(auth, email, password)
+        auth.signInWithEmailAndPassword(email, password)
             .then((userCredential) => {
                 console.log('Usuário logado: ', userCredential.user.email);
                 alert('Login realizado com sucesso!');
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Função de logout
     document.getElementById('logoutButton').addEventListener('click', function() {
-        signOut(auth).then(() => {
+        auth.signOut().then(() => {
             alert('Logout realizado com sucesso!');
             document.getElementById('forms').style.display = 'none'; // Esconde os formulários após o logout
             document.getElementById('logoutButton').style.display = 'none'; // Esconde o botão de sair
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Verificação de autenticação
-    onAuthStateChanged(auth, (user) => {
+    auth.onAuthStateChanged((user) => {
         if (user) {
             console.log('Usuário logado: ', user.email);
             document.getElementById('forms').style.display = 'block'; // Mostra os formulários se já estiver logado
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Função para preencher datalists com dados distintos e ordenados alfabeticamente do Firestore
     async function preencherDatalist(idDatalist, collectionName, fieldName) {
-        const querySnapshot = await getDocs(collection(db, collectionName));
+        const querySnapshot = await db.collection(collectionName).get();
         const datalist = document.getElementById(idDatalist);
         const uniqueValues = new Set();  // Usar Set para armazenar valores únicos
 
@@ -87,28 +87,27 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Preencher as listas de sugestões no formulário de "Adicionar Carro"
-    preencherDatalist('renavamsCar', 'Caracteristicas', 'RENAVAM');  // Preencher RENAVAM
-    preencherDatalist('marcas', 'Caracteristicas', 'Marca'); // Preencher Marca
-    preencherDatalist('modelos', 'Caracteristicas', 'Modelo'); // Preencher Modelo
-    preencherDatalist('anosFabricacao', 'Caracteristicas', 'Ano_Fab'); // Preencher Ano de Fabricação
-    preencherDatalist('anosModelo', 'Caracteristicas', 'Ano_Modelo'); // Preencher Ano do Modelo
-    preencherDatalist('versoes', 'Caracteristicas', 'Versao'); // Preencher Versão
-    preencherDatalist('litragensMotor', 'Caracteristicas', 'Litragem_Motor'); // Preencher Litragem do Motor
-    preencherDatalist('cores', 'Caracteristicas', 'Cor'); // Preencher Cor
-    preencherDatalist('placasAntigas', 'Caracteristicas', 'Placa_Antiga'); // Preencher Placa Antiga
-    preencherDatalist('placasMercosul', 'Caracteristicas', 'Placa_Mercosul'); // Preencher Placa Mercosul
-    preencherDatalist('codigosFIPE', 'Caracteristicas', 'Codigo_FIPE'); // Preencher Código FIPE
+    preencherDatalist('renavamsCar', 'Caracteristicas', 'RENAVAM');
+    preencherDatalist('marcas', 'Caracteristicas', 'Marca');
+    preencherDatalist('modelos', 'Caracteristicas', 'Modelo');
+    preencherDatalist('anosFabricacao', 'Caracteristicas', 'Ano_Fab');
+    preencherDatalist('anosModelo', 'Caracteristicas', 'Ano_Modelo');
+    preencherDatalist('versoes', 'Caracteristicas', 'Versao');
+    preencherDatalist('litragensMotor', 'Caracteristicas', 'Litragem_Motor');
+    preencherDatalist('cores', 'Caracteristicas', 'Cor');
+    preencherDatalist('placasAntigas', 'Caracteristicas', 'Placa_Antiga');
+    preencherDatalist('placasMercosul', 'Caracteristicas', 'Placa_Mercosul');
+    preencherDatalist('codigosFIPE', 'Caracteristicas', 'Codigo_FIPE');
 
     // Preencher as listas de sugestões no formulário de "Adicionar Custo"
-    preencherDatalist('renavamsCost', 'Custos', 'RENAVAM_Custo');  // Preencher RENAVAM
-    preencherDatalist('descriptions', 'Custos', 'Descricao_Custos'); // Preencher Descrição dos Custos
-    preencherDatalist('quemPagouList', 'Custos', 'Quem_Pagou'); // Preencher Quem pagou
-    preencherDatalist('paymentMethods', 'Custos', 'Metodo_Pagamento'); // Preencher Método de Pagamento
+    preencherDatalist('renavamsCost', 'Custos', 'RENAVAM_Custo');
+    preencherDatalist('descriptions', 'Custos', 'Descricao_Custos');
+    preencherDatalist('quemPagouList', 'Custos', 'Quem_Pagou');
+    preencherDatalist('paymentMethods', 'Custos', 'Metodo_Pagamento');
 
     // Função para buscar os dados do Firestore e preencher o formulário de carro
     async function buscarCarroPorRenavam(renavam) {
-        const docRef = collection(db, 'Caracteristicas');
-        const carroSnapshot = await getDocs(docRef);  // Renomeei a variável para 'carroSnapshot'
+        const carroSnapshot = await db.collection('Caracteristicas').get();
         let carroEncontrado = null;
 
         carroSnapshot.forEach((doc) => {
@@ -130,7 +129,6 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('placaMercosul').value = carroEncontrado.Placa_Mercosul;
             document.getElementById('codigoFIPE').value = carroEncontrado.Codigo_FIPE;
         } else {
-            // Limpar o formulário para permitir o preenchimento manual
             document.getElementById('carForm').reset();
         }
     }
@@ -143,8 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Função para buscar os dados do Firestore e preencher o formulário de custo
     async function buscarCustoPorRenavam(renavam) {
-        const docRef = collection(db, 'Custos');
-        const custoSnapshot = await getDocs(docRef);  // Renomeei a variável para 'custoSnapshot'
+        const custoSnapshot = await db.collection('Custos').get();
         let custoEncontrado = null;
 
         custoSnapshot.forEach((doc) => {
@@ -154,14 +151,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         if (custoEncontrado) {
-            // Preencher o formulário com os dados existentes
             document.getElementById('data').value = custoEncontrado.Data;
             document.getElementById('descricaoCustos').value = custoEncontrado.Descricao_Custos;
             document.getElementById('quemPagou').value = custoEncontrado.Quem_Pagou;
             document.getElementById('metodoPagamento').value = custoEncontrado.Metodo_Pagamento;
             document.getElementById('valorCustos').value = custoEncontrado.Valor_Custos;
         } else {
-            // Limpar o formulário para permitir o preenchimento manual
             document.getElementById('costForm').reset();
         }
     }
