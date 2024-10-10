@@ -115,4 +115,63 @@ document.addEventListener('DOMContentLoaded', function() {
         let carroEncontrado = null;
 
         carroSnapshot.forEach((doc) => {
-            if (doc.data().REN
+            if (doc.data().RENAVAM === renavam) {
+                carroEncontrado = doc.data();
+            }
+        });
+
+        if (carroEncontrado) {
+            // Preencher o formulário com os dados existentes
+            document.getElementById('marca').value = carroEncontrado.Marca;
+            document.getElementById('modelo').value = carroEncontrado.Modelo;
+            document.getElementById('anoFab').value = carroEncontrado.Ano_Fab;
+            document.getElementById('anoModelo').value = carroEncontrado.Ano_Modelo;
+            document.getElementById('versao').value = carroEncontrado.Versao;
+            document.getElementById('litragemMotor').value = carroEncontrado.Litragem_Motor;
+            document.getElementById('cor').value = carroEncontrado.Cor;
+            document.getElementById('placaAntiga').value = carroEncontrado.Placa_Antiga;
+            document.getElementById('placaMercosul').value = carroEncontrado.Placa_Mercosul;
+            document.getElementById('codigoFIPE').value = carroEncontrado.Codigo_FIPE;
+        } else {
+            // Limpar o formulário para permitir o preenchimento manual
+            document.getElementById('carForm').reset();
+        }
+    }
+
+    // Ouvinte de evento para quando o usuário mudar o valor do RENAVAM no formulário de carro
+    document.getElementById('renavam').addEventListener('change', function() {
+        const renavam = document.getElementById('renavam').value;
+        buscarCarroPorRenavam(renavam);
+    });
+
+    // Função para buscar os dados do Firestore e preencher o formulário de custo
+    async function buscarCustoPorRenavam(renavam) {
+        const docRef = collection(db, 'Custos');
+        const custoSnapshot = await getDocs(docRef);  // Renomeei a variável para 'custoSnapshot'
+        let custoEncontrado = null;
+
+        custoSnapshot.forEach((doc) => {
+            if (doc.data().RENAVAM_Custo === renavam) {
+                custoEncontrado = doc.data();
+            }
+        });
+
+        if (custoEncontrado) {
+            // Preencher o formulário com os dados existentes
+            document.getElementById('data').value = custoEncontrado.Data;
+            document.getElementById('descricaoCustos').value = custoEncontrado.Descricao_Custos;
+            document.getElementById('quemPagou').value = custoEncontrado.Quem_Pagou;
+            document.getElementById('metodoPagamento').value = custoEncontrado.Metodo_Pagamento;
+            document.getElementById('valorCustos').value = custoEncontrado.Valor_Custos;
+        } else {
+            // Limpar o formulário para permitir o preenchimento manual
+            document.getElementById('costForm').reset();
+        }
+    }
+
+    // Ouvinte de evento para quando o usuário mudar o valor do RENAVAM no formulário de custo
+    document.getElementById('renavamCusto').addEventListener('change', function() {
+        const renavam = document.getElementById('renavamCusto').value;
+        buscarCustoPorRenavam(renavam);
+    });
+});
