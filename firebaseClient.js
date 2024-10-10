@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Função para preencher todos os datalists
     function preencherDatalists() {
         console.log('Preenchendo datalists...');
+        // Preencher os datalists do formulário de adicionar carro
         preencherDatalist('renavamsCar', 'Caracteristicas', 'RENAVAM');
         preencherDatalist('marcas', 'Caracteristicas', 'Marca');
         preencherDatalist('modelos', 'Caracteristicas', 'Modelo');
@@ -55,6 +56,12 @@ document.addEventListener('DOMContentLoaded', function() {
         preencherDatalist('placasAntigas', 'Caracteristicas', 'Placa_Antiga');
         preencherDatalist('placasMercosul', 'Caracteristicas', 'Placa_Mercosul');
         preencherDatalist('codigosFIPE', 'Caracteristicas', 'Codigo_FIPE');
+
+        // Preencher os datalists do formulário de adicionar custo
+        preencherDatalist('renavamsCost', 'Custos', 'RENAVAM_Custo');
+        preencherDatalist('descriptions', 'Custos', 'Descricao_Custos');
+        preencherDatalist('quemPagouList', 'Custos', 'Quem_Pagou');
+        preencherDatalist('paymentMethods', 'Custos', 'Metodo_Pagamento');
     }
 
     // Função para preencher os datalists com dados do Firestore
