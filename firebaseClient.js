@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', function(event) {
-            event.preventDefault();
+            event.preventDefault(); // Previne o comportamento padrão do envio do formulário
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (costForm) {
         costForm.addEventListener('submit', function(event) {
             event.preventDefault(); // Previne o comportamento padrão de envio do formulário
-            
+
             // Captura os valores do formulário
             const renavamCusto = document.getElementById('renavamCusto').value;
             const descricaoCustos = document.getElementById('descricaoCustos').value;
