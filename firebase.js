@@ -64,6 +64,19 @@ async function excluirCustoBackend(custoId) {
     }
 }
 
+async function adicionarCarroBackend(carData) {
+    if (!carData.RENAVAM) {
+        console.error("Erro: RENAVAM é obrigatório.");
+        return;
+    }
+    try {
+        await db.collection('Caracteristicas').doc(carData.RENAVAM).set(carData);
+        console.log("Carro adicionado com sucesso!", carData);
+    } catch (error) {
+        console.error("Erro ao adicionar carro:", error.message);
+    }
+}
+
 
 // Exemplo de como chamar a função de backend
 // adicionarCarroBackend({
