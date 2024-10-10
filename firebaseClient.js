@@ -117,7 +117,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         if (carroEncontrado) {
-            // Preencher o formulário com os dados existentes
             document.getElementById('marca').value = carroEncontrado.Marca;
             document.getElementById('modelo').value = carroEncontrado.Modelo;
             document.getElementById('anoFab').value = carroEncontrado.Ano_Fab;
