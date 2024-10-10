@@ -24,6 +24,17 @@ async function adicionarCarroBackend(carData) {
     }
 }
 
+async function atualizarCarroBackend(carId, carData) {
+    try {
+        console.log("Atualizando carro com ID:", carId);
+        await db.collection('Caracteristicas').doc(carId).update(carData);
+        console.log("Carro atualizado com sucesso!");
+    } catch (error) {
+        console.error("Erro ao atualizar o carro:", error);
+    }
+}
+
+
 // Exemplo de como chamar a função de backend
 // adicionarCarroBackend({
 //     Ano_Fab: 2020,
