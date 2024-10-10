@@ -170,5 +170,10 @@ document.getElementById('editCostButton').addEventListener('click', function() {
     atualizarCustoBackend(custoId, custoData);  // Chama função backend
 });
 
+document.getElementById('deleteCostButton').addEventListener('click', function() {
+    const custoId = document.getElementById('renavamCusto').value; // Usa RENAVAM como ID
+    excluirCustoBackend(custoId);  // Chama função backend
+});
+
     
 });
