@@ -101,6 +101,12 @@ preencherDatalist('placasAntigas', 'Caracteristicas', 'Placa_Antiga'); // Preenc
 preencherDatalist('placasMercosul', 'Caracteristicas', 'Placa_Mercosul'); // Preencher Placa Mercosul
 preencherDatalist('codigosFIPE', 'Caracteristicas', 'Codigo_FIPE'); // Preencher Código FIPE
 
+// Preencher as listas de sugestões no formulário de "Adicionar Custo"
+preencherDatalist('renavamsCost', 'Custos', 'RENAVAM_Custo');  // Preencher RENAVAM
+preencherDatalist('descriptions', 'Custos', 'Descricao_Custos'); // Preencher Descrição dos Custos
+preencherDatalist('quemPagouList', 'Custos', 'Quem_Pagou'); // Preencher Quem pagou
+preencherDatalist('paymentMethods', 'Custos', 'Metodo_Pagamento'); // Preencher Método de Pagamento
+
 // Função para buscar os dados do Firestore e preencher o formulário de carro
 async function buscarCarroPorRenavam(renavam) {
     const docRef = collection(db, 'Caracteristicas');
