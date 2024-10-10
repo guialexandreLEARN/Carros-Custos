@@ -138,4 +138,22 @@ document.addEventListener('DOMContentLoaded', function() {
         buscarCarroPorRenavam(renavam);
     });
 
+document.getElementById('editCarButton').addEventListener('click', function() {
+    const carId = document.getElementById('renavam').value; // Usa RENAVAM como ID
+    const carData = {
+        Ano_Fab: document.getElementById('anoFab').value,
+        Ano_Modelo: document.getElementById('anoModelo').value,
+        Cor: document.getElementById('cor').value,
+        Código_FIPE: document.getElementById('codigoFIPE').value,
+        Litragem_Motor: document.getElementById('litragemMotor').value,
+        Marca: document.getElementById('marca').value,
+        Modelo: document.getElementById('modelo').value,
+        Placa_Antiga: document.getElementById('placaAntiga').value,
+        Placa_Mercosul: document.getElementById('placaMercosul').value,
+        Versão: document.getElementById('versao').value,
+    };
+    atualizarCarroBackend(carId, carData);  // Chama função backend
+});
+
+    
 });
