@@ -1,92 +1,88 @@
 <!DOCTYPE html> 
-<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
-
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carros e Custos</title>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Estilo para telas menores, até 600px de largura */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            form {
+                margin-bottom: 15px;
+            }
+
+            input, button {
+                width: 100%;
+            }
+
+            h1, h2, h3 {
+                font-size: 1.5em;
+            }
+        }
+
+        /* Estilo para telas médias, entre 600px e 900px de largura */
+        @media (min-width: 600px) and (max-width: 900px) {
+            input, button {
+                width: 80%;
+            }
+
+            h1, h2, h3 {
+                font-size: 2em;
+            }
+        }
+
+        /* Estilo para telas maiores, acima de 900px de largura */
+        @media (min-width: 900px) {
+            input, button {
+                width: 50%;
+            }
+
+            h1, h2, h3 {
+                font-size: 2.5em;
+            }
+        }
+    </style>
 </head>
-<style>
-    body {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-}
-
-form {
-    margin-bottom: 20px;
-}
-
-label {
-    display: block;
-    margin-bottom: 8px;
-}
-
-input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    box-sizing: border-box;
-}
-
-button {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
-/* Estilo para telas menores, até 600px de largura */
-@media (max-width: 600px) {
-    body {
-        padding: 10px;
-    }
-
-    form {
-        margin-bottom: 15px;
-    }
-
-    input, button {
-        width: 100%;
-    }
-
-    h1, h2, h3 {
-        font-size: 1.5em;
-    }
-}
-
-/* Estilo para telas médias, entre 600px e 900px de largura */
-@media (min-width: 600px) and (max-width: 900px) {
-    input, button {
-        width: 80%;
-    }
-
-    h1, h2, h3 {
-        font-size: 2em;
-    }
-}
-
-/* Estilo para telas maiores, acima de 900px de largura */
-@media (min-width: 900px) {
-    input, button {
-        width: 50%;
-    }
-
-    h1, h2, h3 {
-        font-size: 2.5em;
-    }
-}
-
-</style>
-
 <body>
     <h1>Gerenciar Carros e Custos</h1>
 
@@ -113,78 +109,36 @@ button:hover {
             <input list="renavamsCar" id="renavam" aria-label="RENAVAM do carro">
             <datalist id="renavamsCar"></datalist><br>
 
-            <label for="marca">Marca:</label>
-            <input list="marcas" id="marca" aria-label="Marca do carro">
-            <datalist id="marcas"></datalist><br>
-
-            <label for="modelo">Modelo:</label>
-            <input list="modelos" id="modelo" aria-label="Modelo do carro">
-            <datalist id="modelos"></datalist><br>
-
-            <label for="anoFab">Ano de Fabricação:</label>
-            <input list="anosFabricacao" id="anoFab" aria-label="Ano de fabricação do carro">
-            <datalist id="anosFabricacao"></datalist><br>
-
-            <label for="anoModelo">Ano do Modelo:</label>
-            <input list="anosModelo" id="anoModelo" aria-label="Ano do modelo do carro">
-            <datalist id="anosModelo"></datalist><br>
-
-            <label for="versao">Versão:</label>
-            <input list="versoes" id="versao" aria-label="Versão do carro">
-            <datalist id="versoes"></datalist><br>
-
-            <label for="litragemMotor">Litragem do Motor:</label>
-            <input list="litragensMotor" id="litragemMotor" aria-label="Litragem do motor do carro">
-            <datalist id="litragensMotor"></datalist><br>
-
-            <label for="cor">Cor:</label>
-            <input list="cores" id="cor" aria-label="Cor do carro">
-            <datalist id="cores"></datalist><br>
-
-            <label for="placaAntiga">Placa Antiga:</label>
-            <input list="placasAntigas" id="placaAntiga" aria-label="Placa antiga do carro">
-            <datalist id="placasAntigas"></datalist><br>
-
-            <label for="placaMercosul">Placa Mercosul:</label>
-            <input list="placasMercosul" id="placaMercosul" aria-label="Placa Mercosul do carro">
-            <datalist id="placasMercosul"></datalist><br>
-
-            <label for="codigoFIPE">Código FIPE:</label>
-            <input list="codigosFIPE" id="codigoFIPE" aria-label="Código FIPE do carro">
-            <datalist id="codigosFIPE"></datalist><br>
+            <!-- Outros campos do carro aqui -->
 
             <button type="submit">Adicionar Carro</button>
-            <button id="editCarButton">Editar Carro</button>
-            <button id="deleteCarButton">Excluir Carro</button>
         </form>
 
-<h3>Adicionar Custo</h3>
-<form id="costForm">
-    <label for="renavamCusto">RENAVAM:</label>
-    <input list="renavamsCost" id="renavamCusto" name="renavamCusto" aria-label="RENAVAM do custo">
-    <datalist id="renavamsCost"></datalist><br>
+        <h3>Adicionar Custo</h3>
+        <form id="costForm">
+            <label for="renavamCusto">RENAVAM:</label>
+            <input list="renavamsCost" id="renavamCusto" name="renavamCusto" aria-label="RENAVAM do custo">
+            <datalist id="renavamsCost"></datalist><br>
 
-    <label for="descricaoCustos">Descrição dos Custos:</label>
-    <input list="descriptions" id="descricaoCustos" name="descricaoCustos" aria-label="Descrição dos custos">
-    <datalist id="descriptions"></datalist><br>
+            <label for="descricaoCustos">Descrição dos Custos:</label>
+            <input list="descriptions" id="descricaoCustos" name="descricaoCustos" aria-label="Descrição dos custos">
+            <datalist id="descriptions"></datalist><br>
 
-    <label for="quemPagou">Quem pagou:</label>
-    <input list="quemPagouList" id="quemPagou" name="quemPagou" aria-label="Quem pagou pelos custos">
-    <datalist id="quemPagouList"></datalist><br>
+            <label for="quemPagou">Quem pagou:</label>
+            <input list="quemPagouList" id="quemPagou" name="quemPagou" aria-label="Quem pagou pelos custos">
+            <datalist id="quemPagouList"></datalist><br>
 
-    <label for="metodoPagamento">Método de Pagamento:</label>
-    <input list="paymentMethods" id="metodoPagamento" name="metodoPagamento" aria-label="Método de pagamento">
-    <datalist id="paymentMethods"></datalist><br>
+            <label for="metodoPagamento">Método de Pagamento:</label>
+            <input list="paymentMethods" id="metodoPagamento" name="metodoPagamento" aria-label="Método de pagamento">
+            <datalist id="paymentMethods"></datalist><br>
 
-    <label for="valorCustos">Valor dos Custos:</label>
-    <input type="number" id="valorCustos" name="valorCustos" aria-label="Valor dos custos"><br>
+            <label for="valorCustos">Valor dos Custos:</label>
+            <input type="number" id="valorCustos" name="valorCustos" aria-label="Valor dos custos"><br>
 
-    <button type="submit">Adicionar Custo</button>
-    <!-- Botões para editar e excluir custos -->
-    <button id="editCostButton" type="button">Editar Custo</button>
-    <button id="deleteCostButton" type="button">Excluir Custo</button>
-</form>
-
+            <button type="submit">Adicionar Custo</button>
+            <button id="editCostButton" type="button">Editar Custo</button>
+            <button id="deleteCostButton" type="button">Excluir Custo</button>
+        </form>
     </div>
     <script src="firebaseClient.js"></script>
 </body>
