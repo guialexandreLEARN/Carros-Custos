@@ -34,6 +34,16 @@ async function atualizarCarroBackend(carId, carData) {
     }
 }
 
+async function excluirCarroBackend(carId) {
+    try {
+        console.log("Excluindo carro com ID:", carId);
+        await db.collection('Caracteristicas').doc(carId).delete();
+        console.log("Carro excluído com sucesso!");
+    } catch (error) {
+        console.error("Erro ao excluir o carro:", error);
+    }
+}
+
 
 // Exemplo de como chamar a função de backend
 // adicionarCarroBackend({
