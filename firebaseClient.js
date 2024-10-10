@@ -153,5 +153,17 @@ async function buscarCustoPorRenavam(renavam) {
         // Preencher o formulário com os dados existentes
         document.getElementById('data').value = custoEncontrado.Data;
         document.getElementById('descricaoCustos').value = custoEncontrado.Descricao_Custos;
-        document.getElementById('quemPagou').value = custoEncontrado.Quem_Pag
-;
+        document.getElementById('quemPagou').value = custoEncontrado.Quem_Pagou;
+        document.getElementById('metodoPagamento').value = custoEncontrado.Metodo_Pagamento;
+        document.getElementById('valorCustos').value = custoEncontrado.Valor_Custos;
+    } else {
+        // Limpar o formulário para permitir o preenchimento manual
+        document.getElementById('costForm').reset();
+    }
+}
+
+// Ouvinte de evento para quando o usuário mudar o valor do RENAVAM no formulário de custo
+document.getElementById('renavamCusto').addEventListener('change', function() {
+    const renavam = document.getElementById('renavamCusto').value;
+    buscarCustoPorRenavam(renavam);
+});
