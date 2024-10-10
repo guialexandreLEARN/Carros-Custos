@@ -12,43 +12,79 @@
 </head>
 <style>
     body {
-        font-family: Arial, sans-serif;
-        padding: 20px;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Estilo para telas menores, até 600px de largura */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
     }
 
     form {
-        margin-bottom: 20px;
+        margin-bottom: 15px;
     }
 
-    label {
-        display: block;
-        margin-bottom: 8px;
-    }
-
-    input {
+    input, button {
         width: 100%;
-        padding: 8px;
-        margin-bottom: 10px;
-        box-sizing: border-box;
     }
 
-    button {
-        padding: 10px 20px;
-        background-color: #4CAF50;
-        color: white;
-        border: none;
-        cursor: pointer;
+    h1, h2, h3 {
+        font-size: 1.5em;
+    }
+}
+
+/* Estilo para telas médias, entre 600px e 900px de largura */
+@media (min-width: 600px) and (max-width: 900px) {
+    input, button {
+        width: 80%;
     }
 
-    button:hover {
-        background-color: #45a049;
+    h1, h2, h3 {
+        font-size: 2em;
+    }
+}
+
+/* Estilo para telas maiores, acima de 900px de largura */
+@media (min-width: 900px) {
+    input, button {
+        width: 50%;
     }
 
-    @media (min-width: 600px) {
-        input {
-            width: 50%;
-        }
+    h1, h2, h3 {
+        font-size: 2.5em;
     }
+}
+
 </style>
 
 <body>
