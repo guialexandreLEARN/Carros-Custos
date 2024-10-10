@@ -160,5 +160,15 @@ document.getElementById('editCarButton').addEventListener('click', function() {
     excluirCarroBackend(carId);  // Chama função backend
 });
 
+document.getElementById('editCostButton').addEventListener('click', function() {
+    const custoId = document.getElementById('renavamCusto').value; // Usa RENAVAM como ID
+    const custoData = {
+        Descricao: document.getElementById('descricaoCustos').value,
+        Metodo_Pagamento: document.getElementById('metodoPagamento').value,
+        Valor: document.getElementById('valorCustos').value,
+    };
+    atualizarCustoBackend(custoId, custoData);  // Chama função backend
+});
+
     
 });
