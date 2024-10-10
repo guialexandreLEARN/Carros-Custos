@@ -26,33 +26,43 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
     // Função de login
-    document.getElementById('loginForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
 
-        auth.signInWithEmailAndPassword(email, password)
-            .then((userCredential) => {
-                console.log('Usuário logado: ', userCredential.user.email);
-                alert('Login realizado com sucesso!');
-                document.getElementById('forms').style.display = 'block'; // Mostra os formulários após o login
-                document.getElementById('logoutButton').style.display = 'block'; // Mostra o botão de logout
-            })
-            .catch((error) => {
-                alert('Erro ao fazer login: ' + error.message);
-            });
-    });
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    console.log('Usuário logado: ', userCredential.user.email);
+                    alert('Login realizado com sucesso!');
+                    document.getElementById('forms').style.display = 'block'; // Mostra os formulários após o login
+                    document.getElementById('logoutButton').style.display = 'block'; // Mostra o botão de logout
+                })
+                .catch((error) => {
+                    alert('Erro ao fazer login: ' + error.message);
+                });
+        });
+    } else {
+        console.error("Elemento 'loginForm' não encontrado.");
+    }
 
     // Função de logout
-    document.getElementById('logoutButton').addEventListener('click', function() {
-        auth.signOut().then(() => {
-            alert('Logout realizado com sucesso!');
-            document.getElementById('forms').style.display = 'none'; // Esconde os formulários após o logout
-            document.getElementById('logoutButton').style.display = 'none'; // Esconde o botão de sair
-        }).catch((error) => {
-            alert('Erro ao fazer logout: ' + error.message);
+    const logoutButton = document.getElementById('logoutButton');
+    if (logoutButton) {
+        logoutButton.addEventListener('click', function() {
+            auth.signOut().then(() => {
+                alert('Logout realizado com sucesso!');
+                document.getElementById('forms').style.display = 'none'; // Esconde os formulários após o logout
+                document.getElementById('logoutButton').style.display = 'none'; // Esconde o botão de sair
+            }).catch((error) => {
+                alert('Erro ao fazer logout: ' + error.message);
+            });
         });
-    });
+    } else {
+        console.error("Elemento 'logoutButton' não encontrado.");
+    }
 
     // Verificação de autenticação
     auth.onAuthStateChanged((user) => {
@@ -67,23 +77,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Função para preencher datalists com dados distintos e ordenados alfabeticamente do Firestore
     async function preencherDatalist(idDatalist, collectionName, fieldName) {
-        const querySnapshot = await db.collection(collectionName).get();
         const datalist = document.getElementById(idDatalist);
-        const uniqueValues = new Set();  // Usar Set para armazenar valores únicos
+        if (datalist) {
+            const querySnapshot = await db.collection(collectionName).get();
+            const uniqueValues = new Set();  // Usar Set para armazenar valores únicos
 
-        querySnapshot.forEach((doc) => {
-            uniqueValues.add(doc.data()[fieldName]);  // Adicionar valores ao Set
-        });
+            querySnapshot.forEach((doc) => {
+                uniqueValues.add(doc.data()[fieldName]);  // Adicionar valores ao Set
+            });
 
-        // Converter o Set em um array e ordenar alfabeticamente
-        const sortedValues = Array.from(uniqueValues).sort();
+            // Converter o Set em um array e ordenar alfabeticamente
+            const sortedValues = Array.from(uniqueValues).sort();
 
-        // Adicionar os valores ao datalist
-        sortedValues.forEach((value) => {
-            const option = document.createElement('option');
-            option.value = value;
-            datalist.appendChild(option);
-        });
+            // Adicionar os valores ao datalist
+            sortedValues.forEach((value) => {
+                const option = document.createElement('option');
+                option.value = value;
+                datalist.appendChild(option);
+            });
+        } else {
+            console.error(`Elemento '${idDatalist}' não encontrado.`);
+        }
     }
 
     // Preencher as listas de sugestões no formulário de "Adicionar Carro"
@@ -133,47 +147,71 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Ouvinte de evento para quando o usuário mudar o valor do RENAVAM no formulário de carro
-    document.getElementById('renavam').addEventListener('change', function() {
-        const renavam = document.getElementById('renavam').value;
-        buscarCarroPorRenavam(renavam);
-    });
+    const renavamInput = document.getElementById('renavam');
+    if (renavamInput) {
+        renavamInput.addEventListener('change', function() {
+            const renavam = document.getElementById('renavam').value;
+            buscarCarroPorRenavam(renavam);
+        });
+    } else {
+        console.error("Elemento 'renavam' não encontrado.");
+    }
 
-document.getElementById('editCarButton').addEventListener('click', function() {
-    const carId = document.getElementById('renavam').value; // Usa RENAVAM como ID
-    const carData = {
-        Ano_Fab: document.getElementById('anoFab').value,
-        Ano_Modelo: document.getElementById('anoModelo').value,
-        Cor: document.getElementById('cor').value,
-        Código_FIPE: document.getElementById('codigoFIPE').value,
-        Litragem_Motor: document.getElementById('litragemMotor').value,
-        Marca: document.getElementById('marca').value,
-        Modelo: document.getElementById('modelo').value,
-        Placa_Antiga: document.getElementById('placaAntiga').value,
-        Placa_Mercosul: document.getElementById('placaMercosul').value,
-        Versão: document.getElementById('versao').value,
-    };
-    atualizarCarroBackend(carId, carData);  // Chama função backend
-});
+    const editCarButton = document.getElementById('editCarButton');
+    if (editCarButton) {
+        editCarButton.addEventListener('click', function() {
+            const carId = document.getElementById('renavam').value; // Usa RENAVAM como ID
+            const carData = {
+                Ano_Fab: document.getElementById('anoFab').value,
+                Ano_Modelo: document.getElementById('anoModelo').value,
+                Cor: document.getElementById('cor').value,
+                Código_FIPE: document.getElementById('codigoFIPE').value,
+                Litragem_Motor: document.getElementById('litragemMotor').value,
+                Marca: document.getElementById('marca').value,
+                Modelo: document.getElementById('modelo').value,
+                Placa_Antiga: document.getElementById('placaAntiga').value,
+                Placa_Mercosul: document.getElementById('placaMercosul').value,
+                Versão: document.getElementById('versao').value,
+            };
+            atualizarCarroBackend(carId, carData);  // Chama função backend
+        });
+    } else {
+        console.error("Elemento 'editCarButton' não encontrado.");
+    }
 
-    document.getElementById('deleteCarButton').addEventListener('click', function() {
-    const carId = document.getElementById('renavam').value; // Usa RENAVAM como ID
-    excluirCarroBackend(carId);  // Chama função backend
-});
+    const deleteCarButton = document.getElementById('deleteCarButton');
+    if (deleteCarButton) {
+        deleteCarButton.addEventListener('click', function() {
+            const carId = document.getElementById('renavam').value; // Usa RENAVAM como ID
+            excluirCarroBackend(carId);  // Chama função backend
+        });
+    } else {
+        console.error("Elemento 'deleteCarButton' não encontrado.");
+    }
 
-document.getElementById('editCostButton').addEventListener('click', function() {
-    const custoId = document.getElementById('renavamCusto').value; // Usa RENAVAM como ID
-    const custoData = {
-        Descricao: document.getElementById('descricaoCustos').value,
-        Metodo_Pagamento: document.getElementById('metodoPagamento').value,
-        Valor: document.getElementById('valorCustos').value,
-    };
-    atualizarCustoBackend(custoId, custoData);  // Chama função backend
-});
+    const editCostButton = document.getElementById('editCostButton');
+    if (editCostButton) {
+        editCostButton.addEventListener('click', function() {
+            const custoId = document.getElementById('renavamCusto').value; // Usa RENAVAM como ID
+            const custoData = {
+                Descricao: document.getElementById('descricaoCustos').value,
+                Metodo_Pagamento: document.getElementById('metodoPagamento').value,
+                Valor: document.getElementById('valorCustos').value,
+            };
+            atualizarCustoBackend(custoId, custoData);  // Chama função backend
+        });
+    } else {
+        console.error("Elemento 'editCostButton' não encontrado.");
+    }
 
-document.getElementById('deleteCostButton').addEventListener('click', function() {
-    const custoId = document.getElementById('renavamCusto').value; // Usa RENAVAM como ID
-    excluirCustoBackend(custoId);  // Chama função backend
-});
+    const deleteCostButton = document.getElementById('deleteCostButton');
+    if (deleteCostButton) {
+        deleteCostButton.addEventListener('click', function() {
+            const custoId = document.getElementById('renavamCusto').value; // Usa RENAVAM como ID
+            excluirCustoBackend(custoId);  // Chama função backend
+        });
+    } else {
+        console.error("Elemento 'deleteCostButton' não encontrado.");
+    }
 
-    
 });
