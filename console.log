@@ -1,4 +1,4 @@
-// Inicializando Firebase
+// Inicializando Firebase 
 console.log("Iniciando Firebase...");
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
