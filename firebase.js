@@ -44,6 +44,16 @@ async function excluirCarroBackend(carId) {
     }
 }
 
+async function atualizarCustoBackend(custoId, custoData) {
+    try {
+        console.log("Atualizando custo com ID:", custoId);
+        await db.collection('Custos').doc(custoId).update(custoData);
+        console.log("Custo atualizado com sucesso!");
+    } catch (error) {
+        console.error("Erro ao atualizar o custo:", error);
+    }
+}
+
 
 // Exemplo de como chamar a função de backend
 // adicionarCarroBackend({
