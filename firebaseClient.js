@@ -33,24 +33,29 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('logoutButton').style.display = 'block';
 
             // Chamar função para preencher as listas de sugestões após o login
-            preencherDatalist('renavamsCar', 'Caracteristicas', 'RENAVAM');
-            preencherDatalist('marcas', 'Caracteristicas', 'Marca');
-            preencherDatalist('modelos', 'Caracteristicas', 'Modelo');
-            preencherDatalist('anosFabricacao', 'Caracteristicas', 'Ano_Fab');
-            preencherDatalist('anosModelo', 'Caracteristicas', 'Ano_Modelo');
-            preencherDatalist('versoes', 'Caracteristicas', 'Versao');
-            preencherDatalist('litragensMotor', 'Caracteristicas', 'Litragem_Motor');
-            preencherDatalist('cores', 'Caracteristicas', 'Cor');
-            preencherDatalist('placasAntigas', 'Caracteristicas', 'Placa_Antiga');
-            preencherDatalist('placasMercosul', 'Caracteristicas', 'Placa_Mercosul');
-            preencherDatalist('codigosFIPE', 'Caracteristicas', 'Codigo_FIPE');
-
+            preencherDatalists();
         } else {
             console.log('Nenhum usuário logado');
             document.getElementById('forms').style.display = 'none';
             document.getElementById('logoutButton').style.display = 'none';
         }
     });
+
+    // Função para preencher todos os datalists
+    function preencherDatalists() {
+        console.log('Preenchendo datalists...');
+        preencherDatalist('renavamsCar', 'Caracteristicas', 'RENAVAM');
+        preencherDatalist('marcas', 'Caracteristicas', 'Marca');
+        preencherDatalist('modelos', 'Caracteristicas', 'Modelo');
+        preencherDatalist('anosFabricacao', 'Caracteristicas', 'Ano_Fab');
+        preencherDatalist('anosModelo', 'Caracteristicas', 'Ano_Modelo');
+        preencherDatalist('versoes', 'Caracteristicas', 'Versao');
+        preencherDatalist('litragensMotor', 'Caracteristicas', 'Litragem_Motor');
+        preencherDatalist('cores', 'Caracteristicas', 'Cor');
+        preencherDatalist('placasAntigas', 'Caracteristicas', 'Placa_Antiga');
+        preencherDatalist('placasMercosul', 'Caracteristicas', 'Placa_Mercosul');
+        preencherDatalist('codigosFIPE', 'Caracteristicas', 'Codigo_FIPE');
+    }
 
     // Função para preencher os datalists com dados do Firestore
     function preencherDatalist(datalistId, collection, field) {
@@ -60,12 +65,22 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        console.log(`Preenchendo datalist ${datalistId} da coleção ${collection} no campo ${field}`);
+
         // Busca os dados no Firestore
         db.collection(collection).get()
             .then((querySnapshot) => {
+                if (querySnapshot.empty) {
+                    console.log(`Nenhum dado encontrado na coleção ${collection}.`);
+                    return;
+                }
+
                 const uniqueValues = new Set();  // Para evitar valores duplicados
                 querySnapshot.forEach((doc) => {
-                    uniqueValues.add(doc.data()[field]);
+                    const fieldValue = doc.data()[field];
+                    if (fieldValue) {
+                        uniqueValues.add(fieldValue);
+                    }
                 });
 
                 // Ordena os valores e adiciona ao datalist
@@ -75,9 +90,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     option.value = value;
                     datalistElement.appendChild(option);
                 });
+
+                console.log(`Datalist ${datalistId} preenchido com sucesso.`);
             })
             .catch((error) => {
-                console.error("Erro ao buscar dados do Firestore: ", error);
+                console.error(`Erro ao buscar dados da coleção ${collection}:`, error);
             });
     }
 
