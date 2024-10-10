@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    // Definir a persistência de login para 'local' (persistência no navegador)
+    // Definir a persistência de login para 'local'
     auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
         .then(() => {
             console.log("Persistência de autenticação definida para 'local'.");
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Previne o comportamento padrão do envio do formulário
+            event.preventDefault(); // Previne o comportamento padrão de envio do formulário
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
@@ -64,6 +64,50 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error("Elemento 'logoutButton' não encontrado.");
     }
 
+    // Função para adicionar carro
+    const carForm = document.getElementById('carForm');
+    if (carForm) {
+        carForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Previne o comportamento padrão de envio do formulário
+
+            // Captura os valores do formulário
+            const renavam = document.getElementById('renavam').value;
+            const marca = document.getElementById('marca').value;
+            const modelo = document.getElementById('modelo').value;
+            const anoFab = document.getElementById('anoFab').value;
+            const anoModelo = document.getElementById('anoModelo').value;
+            const versao = document.getElementById('versao').value;
+            const litragemMotor = document.getElementById('litragemMotor').value;
+            const cor = document.getElementById('cor').value;
+            const placaAntiga = document.getElementById('placaAntiga').value;
+            const placaMercosul = document.getElementById('placaMercosul').value;
+            const codigoFIPE = document.getElementById('codigoFIPE').value;
+
+            // Salva os dados no Firestore
+            db.collection('carros').add({
+                renavam,
+                marca,
+                modelo,
+                anoFab,
+                anoModelo,
+                versao,
+                litragemMotor,
+                cor,
+                placaAntiga,
+                placaMercosul,
+                codigoFIPE,
+                userId: auth.currentUser.uid // ID do usuário que cadastrou o carro
+            }).then(() => {
+                alert('Carro cadastrado com sucesso!');
+                carForm.reset(); // Limpa o formulário após o envio
+            }).catch((error) => {
+                console.error('Erro ao cadastrar carro: ', error);
+            });
+        });
+    } else {
+        console.error("Elemento 'carForm' não encontrado.");
+    }
+
     // Função para adicionar custo
     const costForm = document.getElementById('costForm');
     if (costForm) {
@@ -77,40 +121,22 @@ document.addEventListener('DOMContentLoaded', function() {
             const metodoPagamento = document.getElementById('metodoPagamento').value;
             const valorCustos = document.getElementById('valorCustos').value;
 
-            // Aqui você pode adicionar lógica para salvar os dados no Firebase ou onde necessário
-            console.log("Dados do custo:", {
+            // Salva os dados no Firestore
+            db.collection('custos').add({
                 renavamCusto,
                 descricaoCustos,
                 quemPagou,
                 metodoPagamento,
-                valorCustos
+                valorCustos,
+                userId: auth.currentUser.uid // ID do usuário que cadastrou o custo
+            }).then(() => {
+                alert('Custo adicionado com sucesso!');
+                costForm.reset(); // Limpa o formulário após o envio
+            }).catch((error) => {
+                console.error('Erro ao adicionar custo: ', error);
             });
-
-            // Feedback ao usuário
-            alert('Custo adicionado com sucesso!');
-            costForm.reset(); // Limpa o formulário após o envio
         });
     } else {
         console.error("Elemento 'costForm' não encontrado.");
     }
-
-    // Funções para editar e excluir custo (apenas como placeholders)
-    const editCostButton = document.getElementById('editCostButton');
-    if (editCostButton) {
-        editCostButton.addEventListener('click', function() {
-            alert('Função de editar custo em desenvolvimento.');
-        });
-    } else {
-        console.error("Elemento 'editCostButton' não encontrado.");
-    }
-
-    const deleteCostButton = document.getElementById('deleteCostButton');
-    if (deleteCostButton) {
-        deleteCostButton.addEventListener('click', function() {
-            alert('Função de excluir custo em desenvolvimento.');
-        });
-    } else {
-        console.error("Elemento 'deleteCostButton' não encontrado.");
-    }
-
 });
