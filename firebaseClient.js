@@ -154,3 +154,4 @@ async function buscarCustoPorRenavam(renavam) {
         document.getElementById('data').value = custoEncontrado.Data;
         document.getElementById('descricaoCustos').value = custoEncontrado.Descricao_Custos;
         document.getElementById('quemPagou').value = custoEncontrado.Quem_Pag
+;
