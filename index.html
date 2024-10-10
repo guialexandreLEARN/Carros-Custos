@@ -126,38 +126,24 @@
     <button type="submit">Adicionar Carro</button>
 </form>
 
-
+<h3>Adicionar Custo</h3>
 <form id="costForm">
-    <h3>Adicionar Custo</h3>
+    <label for="renavamCusto">RENAVAM:</label>
+    <input list="renavamsCost" id="renavamCusto" name="renavamCusto">
+    <datalist id="renavamsCost"></datalist>
 
-    <label>RENAVAM (Relaciona com o carro): 
-        <input list="renavams" id="renavamCusto">
-        <datalist id="renavams"></datalist> <!-- Lista de opções para RENAVAM -->
-    </label><br>
-    
-    <label>Data: 
-        <input type="date" id="data">
-    </label><br>
-    
-    <label>Descrição dos Custos: 
-        <input list="descriptions" id="descricaoCustos">
-        <datalist id="descriptions"></datalist> <!-- Lista de opções para Descrição -->
-    </label><br>
-    
-    <label>Quem pagou: 
-        <input list="quemPagouList" id="quemPagou">
-        <datalist id="quemPagouList"></datalist> <!-- Lista de opções para Quem pagou -->
-    </label><br>
-    
-    <label>Método de Pagamento: 
-        <input list="paymentMethods" id="metodoPagamento">
-        <datalist id="paymentMethods"></datalist> <!-- Lista de opções para Método de Pagamento -->
-    </label><br>
-    
-    <label>Valor dos Custos: 
-        <input type="number" id="valorCustos" step="0.01">
-    </label><br>
-    
+    <label for="descricaoCustos">Descrição dos Custos:</label>
+    <input list="descriptions" id="descricaoCustos" name="descricaoCustos">
+    <datalist id="descriptions"></datalist>
+
+    <label for="quemPagou">Quem pagou:</label>
+    <input list="quemPagouList" id="quemPagou" name="quemPagou">
+    <datalist id="quemPagouList"></datalist>
+
+    <label for="metodoPagamento">Método de Pagamento:</label>
+    <input list="paymentMethods" id="metodoPagamento" name="metodoPagamento">
+    <datalist id="paymentMethods"></datalist>
+
     <button type="submit">Adicionar Custo</button>
 </form>
 
